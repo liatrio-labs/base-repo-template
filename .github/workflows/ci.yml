@@ -1,0 +1,83 @@
+name: CI - Tests and Linting
+
+on:
+  # Avoid duplicate runs: run on PRs for branches, and on direct pushes to main
+  # Ignore changes to release-generated files
+  push:
+    branches: ["main"]
+    paths-ignore:
+      - "CHANGELOG.md"
+      - "package-lock.json"
+      - "yarn.lock"
+      - "Cargo.lock"
+      - "go.sum"
+      - "poetry.lock"
+      - "Pipfile.lock"
+  pull_request:
+
+jobs:
+  test:
+    name: Run Tests
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      # TODO: Add language-specific setup here
+      # Examples:
+      # - Node.js: uses: actions/setup-node@v4
+      # - Python: uses: actions/setup-python@v5
+      # - Go: uses: actions/setup-go@v5
+      # - Rust: uses: dtolnay/rust-toolchain@stable
+      # - Java: uses: actions/setup-java@v4
+      # Browse GitHub Actions Marketplace: https://github.com/marketplace?type=actions
+
+      - name: Placeholder - Install dependencies
+        run: |
+          echo "Insert your dependency installation commands here"
+          echo "Examples:"
+          echo "  - Node.js: npm ci or yarn install --frozen-lockfile"
+          echo "  - Python: pip install -r requirements.txt or poetry install"
+          echo "  - Go: go mod download"
+          echo "  - Rust: cargo fetch"
+          echo "  - Java: mvn install or gradle build"
+
+      - name: Placeholder - Run tests
+        run: |
+          echo "Insert your test commands here"
+          echo "Examples:"
+          echo "  - Node.js: npm test or yarn test"
+          echo "  - Python: pytest or python -m unittest"
+          echo "  - Go: go test ./..."
+          echo "  - Rust: cargo test"
+          echo "  - Java: mvn test or gradle test"
+
+  lint:
+    name: Run Linting
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      # TODO: Add language-specific setup here (same as test job)
+
+      - name: Placeholder - Install dependencies
+        run: |
+          echo "Insert your dependency installation commands here"
+          echo "(Same as test job)"
+
+      - name: Placeholder - Run linters
+        run: |
+          echo "Insert your linting commands here"
+          echo "Examples:"
+          echo "  - Node.js: npm run lint or eslint ."
+          echo "  - Python: ruff check . or flake8"
+          echo "  - Go: golangci-lint run"
+          echo "  - Rust: cargo clippy"
+          echo "  - Java: mvn checkstyle:check"
+
+      - name: Run pre-commit hooks
+        run: |
+          echo "Optionally run pre-commit hooks in CI:"
+          echo "  - Install pre-commit: pip install pre-commit"
+          echo "  - Run: pre-commit run --all-files"

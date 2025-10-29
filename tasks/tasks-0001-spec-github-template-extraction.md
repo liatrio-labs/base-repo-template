@@ -58,7 +58,7 @@ This task list breaks down the implementation of the specification defined in `0
   - [x] 1.4 Copy `.markdownlint.yaml` from source repository to maintain consistent markdown linting rules
   - [x] 1.5 Verify directory structure with `tree -L 3` and confirm all base configuration files exist with `ls -la`
 
-- [~] 2.0 Configure language-agnostic pre-commit hooks and code quality automation
+- [x] 2.0 Configure language-agnostic pre-commit hooks and code quality automation
   - Demo Criteria: "Pre-commit hooks install and run successfully on initial repository state; all hooks pass with no errors; configuration includes YAML validation, markdown linting, commitlint, trailing whitespace removal, end-of-file fixer, and commented autoupdate schedule"
   - Proof Artifact(s): "CLI: `pre-commit run --all-files` exits 0 with all hooks showing 'Passed' status; `grep 'autoupdate.*schedule.*quarterly' .pre-commit-config.yaml` finds commented schedule; all language-agnostic hooks present"
   - [x] 2.1 Copy `.pre-commit-config.yaml` from `~/Liatrio/repos/spec-driven-workflow/.pre-commit-config.yaml` to use as starting point
@@ -69,16 +69,16 @@ This task list breaks down the implementation of the specification defined in `0
   - [x] 2.6 Install pre-commit hooks with `pre-commit install` and run `pre-commit run --all-files` to verify all hooks pass on initial state
   - [x] 2.7 Add section to CONTRIBUTING.md documenting how to add language-specific hooks (with examples: eslint, black, golangci-lint)
 
-- [ ] 3.0 Create functional CI/CD workflow templates with placeholder jobs
+- [x] 3.0 Create functional CI/CD workflow templates with placeholder jobs
   - Demo Criteria: "CI workflow YAML is valid and contains working placeholder jobs with clear customization documentation"
   - Proof Artifact(s): "CLI: `yamllint .github/workflows/ci.yml` passes; workflow contains placeholder echo commands; GitHub Actions validation passes (or local validation)"
-  - [ ] 3.1 Copy `.github/workflows/ci.yml` from source repository as starting point
-  - [ ] 3.2 Remove Python-specific jobs and steps (pytest with coverage, ruff linting, Python version matrix, uv setup)
-  - [ ] 3.3 Create placeholder `test` job with steps: checkout, echo "Insert your tests here", echo "Examples: pytest, npm test, go test, cargo test"
-  - [ ] 3.4 Create placeholder `lint` job with steps: checkout, echo "Insert your lint checks here", echo "Examples: eslint, ruff, golangci-lint, clippy"
-  - [ ] 3.5 Keep paths-ignore rules for release-generated files (CHANGELOG.md, version files, lock files)
-  - [ ] 3.6 Add inline YAML comments explaining customization points and linking to GitHub Actions Marketplace
-  - [ ] 3.7 Validate YAML syntax with `yamllint .github/workflows/ci.yml` or GitHub Actions workflow validator
+  - [x] 3.1 Copy `.github/workflows/ci.yml` from source repository as starting point
+  - [x] 3.2 Remove Python-specific jobs and steps (pytest with coverage, ruff linting, Python version matrix, uv setup)
+  - [x] 3.3 Create placeholder `test` job with steps: checkout, echo "Insert your tests here", echo "Examples: pytest, npm test, go test, cargo test"
+  - [x] 3.4 Create placeholder `lint` job with steps: checkout, echo "Insert your lint checks here", echo "Examples: eslint, ruff, golangci-lint, clippy"
+  - [x] 3.5 Keep paths-ignore rules for release-generated files (CHANGELOG.md, version files, lock files)
+  - [x] 3.6 Add inline YAML comments explaining customization points and linking to GitHub Actions Marketplace
+  - [x] 3.7 Validate YAML syntax with `yamllint .github/workflows/ci.yml` or GitHub Actions workflow validator
 
 - [ ] 4.0 Configure semantic release automation and AI workflow integrations
   - Demo Criteria: "Release workflow is configured for semantic-release starting at v0.1.0 with user reset documentation; Claude and OpenCode workflows are present with setup documentation; Octo STS configuration file exists with subject customization docs"

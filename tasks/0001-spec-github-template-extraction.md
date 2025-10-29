@@ -19,6 +19,7 @@ The source repository is located at `~/Liatrio/repos/spec-driven-workflow`. Refe
 ## 3. User Stories
 
 ### US-1: Template Consumer (Liatrio Developer)
+
 **As a** Liatrio developer starting a new project
 **I want to** create a repository from the `open-source-template`
 **So that** I inherit proven tooling, CI/CD, and documentation without manual setup
@@ -31,6 +32,7 @@ The source repository is located at `~/Liatrio/repos/spec-driven-workflow`. Refe
 - Documentation explains how to customize CI/CD workflows for specific language/framework
 
 ### US-2: Project Maintainer
+
 **As a** project maintainer
 **I want** semantic versioning and changelog generation to work automatically
 **So that** releases are consistent and documented without manual intervention
@@ -42,6 +44,7 @@ The source repository is located at `~/Liatrio/repos/spec-driven-workflow`. Refe
 - Changelog updates automatically
 
 ### US-3: Quality Assurance Engineer
+
 **As a** QA engineer or code reviewer
 **I want** consistent quality gates and automation
 **So that** code quality remains high across all projects
@@ -53,6 +56,7 @@ The source repository is located at `~/Liatrio/repos/spec-driven-workflow`. Refe
 - CI/CD workflow templates include placeholders for test and lint jobs
 
 ### US-4: AI-Assisted Developer
+
 **As a** developer using AI coding assistants
 **I want** pre-configured Claude and OpenCode workflows
 **So that** I can leverage AI assistance with proper CI integration
@@ -66,36 +70,44 @@ The source repository is located at `~/Liatrio/repos/spec-driven-workflow`. Refe
 ## 4. Demoable Units of Work
 
 ### Slice 1: Minimal Template Repository Structure
+
 **Purpose:** Create basic repository skeleton that passes all checks
 **Users:** Template maintainers, initial reviewers
 **Demo Criteria:**
+
 - Repository exists at `~/Liatrio/repos/open-source-template`
 - Contains all required directories and configuration files
 - Pre-commit hooks pass on initial state
 
 **Proof Artifacts:**
+
 - CLI: `cd ~/Liatrio/repos/open-source-template && pre-commit run --all-files`
 - Expected output: All hooks pass
 - File structure visible via `tree -L 3`
 
 ### Slice 2: Pre-commit Hooks & Code Quality
+
 **Purpose:** Ensure all code quality automation works out of the box
 **Users:** Developers setting up local environment
 **Demo Criteria:**
+
 - Pre-commit hooks install successfully
 - Language-agnostic hooks enforce YAML validation, markdown linting, trailing whitespace removal
 - Conventional commits validated via commitlint
 - All hooks pass on initial repository state
 
 **Proof Artifacts:**
+
 - CLI: `pre-commit install && pre-commit run --all-files`
 - Expected output: All hooks pass with "Passed" status
 - Test commit message validation: `echo "invalid message" | pre-commit run commitlint --hook-stage commit-msg` (should fail)
 
 ### Slice 3: CI/CD Pipeline Functionality
+
 **Purpose:** Verify GitHub Actions workflows are properly configured and execute successfully
 **Users:** DevOps engineers, template consumers
 **Demo Criteria:**
+
 - `ci.yml` contains placeholder workflow with working jobs
 - Placeholder jobs run successfully (e.g., `echo "Insert your tests here"`)
 - All workflow files have valid YAML syntax
@@ -103,12 +115,14 @@ The source repository is located at `~/Liatrio/repos/spec-driven-workflow`. Refe
 - No Codecov integration (removed per requirements)
 
 **Proof Artifacts:**
+
 - GitHub Actions tab showing green checkmarks for placeholder jobs
 - Workflow logs showing successful execution: `echo "Insert your tests here"` and `echo "Insert your lint checks here"`
 - YAML validation passes for all workflow files
 - Documentation includes clear CI/CD customization instructions
 
 ### Slice 4: Semantic Release Automation
+
 **Purpose:** Automate versioning and changelog generation
 **Users:** Release managers, maintainers
 **Demo Criteria:**
@@ -118,20 +132,24 @@ The source repository is located at `~/Liatrio/repos/spec-driven-workflow`. Refe
 - Changelog updates with new version
 
 **Proof Artifacts:**
+
 - GitHub Release page showing auto-generated release notes
 - `CHANGELOG.md` with version history
 - Git tag matching semantic version (e.g., `v0.1.0`)
 
 ### Slice 5: Documentation & Onboarding
+
 **Purpose:** Provide clear guidance for template customization
 **Users:** New project teams adopting the template
 **Demo Criteria:**
+
 - README explains template usage and quick start
 - Key customization points highlighted (project name, dependencies, secrets)
 - CONTRIBUTING guide covers development workflow
 - GitHub issue/PR templates generalized
 
 **Proof Artifacts:**
+
 - README.md rendered in GitHub with clear sections
 - Documentation checklist covering: project name update, secret configuration, license review
 - Test documentation by having non-author follow setup steps
@@ -139,6 +157,7 @@ The source repository is located at `~/Liatrio/repos/spec-driven-workflow`. Refe
 ## 5. Functional Requirements
 
 ### FR-1: Repository Structure
+
 1. Create repository at `~/Liatrio/repos/open-source-template`
 2. Include `docs/` directory with development documentation
 3. Maintain `.github/workflows/` directory with all CI/CD workflow templates
@@ -147,6 +166,7 @@ The source repository is located at `~/Liatrio/repos/spec-driven-workflow`. Refe
 6. Repository structure supports any language/framework (no language-specific directories)
 
 ### FR-2: Development Environment Setup
+
 1. Document environment setup process in README (users customize for their chosen stack)
 2. Include guidance on dependency management best practices
 3. Provide examples of common setup patterns (package managers, virtual environments, etc.)
@@ -154,6 +174,7 @@ The source repository is located at `~/Liatrio/repos/spec-driven-workflow`. Refe
 5. Include placeholder sections for language-specific tooling configuration
 
 ### FR-3: Code Quality & Pre-commit Hooks
+
 1. Configure `.pre-commit-config.yaml` with language-agnostic hooks:
    - YAML syntax validation
    - Markdown linting
@@ -167,6 +188,7 @@ The source repository is located at `~/Liatrio/repos/spec-driven-workflow`. Refe
 4. Provide guidance on adding language-specific hooks (linting, formatting, testing)
 
 ### FR-4: CI/CD Workflows
+
 1. **`.github/workflows/ci.yml`**: Working placeholder CI workflow
    - Include test and lint jobs that run successfully with placeholder commands (e.g., `echo "Insert your tests here"`)
    - Use basic GitHub Actions (checkout, etc.) to prove structure works
@@ -187,6 +209,7 @@ The source repository is located at `~/Liatrio/repos/spec-driven-workflow`. Refe
 5. **`.github/workflows/opencode-gpt-5-codex.yml`**: OpenAI Codex workflow with setup documentation
 
 ### FR-5: Documentation
+
 1. **README.md**:
    - Template purpose and value proposition
    - Quick start instructions (clone, setup environment, install pre-commit)
@@ -206,6 +229,7 @@ The source repository is located at `~/Liatrio/repos/spec-driven-workflow`. Refe
    - Placeholder sections for project-specific customizations
 
 ### FR-6: GitHub Template Configuration
+
 1. Enable "Template repository" setting in GitHub
 2. Provide generalized issue templates (bug report, feature request)
 3. Provide generalized pull request template
@@ -215,6 +239,7 @@ The source repository is located at `~/Liatrio/repos/spec-driven-workflow`. Refe
    - Octo STS (for semantic-release, configured at org level)
 
 ### FR-7: Repository Settings Automation
+
 1. **Capture settings from `spec-driven-workflow` via `gh` CLI**:
    - Use `gh api` to fetch branch protection rules from source repository
    - Use `gh api` to fetch repository settings (issues, wikis, discussions, etc.)
@@ -229,6 +254,7 @@ The source repository is located at `~/Liatrio/repos/spec-driven-workflow`. Refe
    - Include screenshots or links to relevant GitHub documentation
 
 ### FR-8: Template Validation
+
 1. Ensure `.pre-commit-config.yaml` runs successfully on initial repository state
 2. Validate all workflow files have correct YAML syntax
 3. Ensure all documentation links and references are valid
@@ -236,6 +262,7 @@ The source repository is located at `~/Liatrio/repos/spec-driven-workflow`. Refe
 5. Verify CI workflow runs successfully with placeholder jobs
 
 ### FR-9: Licensing & Attribution
+
 1. Maintain Apache 2.0 license
 2. Include LICENSE file with copyright attribution to Liatrio
 3. Document how to change license if needed in README
@@ -253,7 +280,8 @@ The source repository is located at `~/Liatrio/repos/spec-driven-workflow`. Refe
 ## 7. Design Considerations
 
 ### Repository Layout
-```
+
+```text
 open-source-template/
 ├── .github/
 │   ├── workflows/
@@ -279,12 +307,14 @@ open-source-template/
 **Note**: Users will add their own source code directories, test directories, and language-specific configuration files (e.g., `package.json`, `go.mod`, `pyproject.toml`, etc.) based on their chosen technology stack.
 
 ### Configuration Approach
+
 - Template provides workflow **structure** and **placeholders** rather than language-specific implementations
 - Users customize CI/CD pipelines based on their chosen technology stack
 - Pre-commit hooks configured with language-agnostic checks (YAML validation, markdown linting, commitlint)
 - Language-specific hooks (linting, formatting, testing) added by users during customization
 
 ### Documentation Tone
+
 - Concise, actionable instructions
 - Assumes basic Git and software development knowledge (Liatrio internal teams)
 - Links to external documentation (GitHub, semantic-release) for detailed concepts
@@ -292,27 +322,32 @@ open-source-template/
 ## 8. Technical Considerations
 
 ### Core Dependencies
+
 - **Version control**: Git
 - **CI/CD**: GitHub Actions
 - **Pre-commit framework**: For enforcing quality gates locally
 - **Semantic release**: For automated versioning and changelog generation
 
 ### Semantic Release Configuration
+
 - Must be configured for GitHub releases
 - Uses Octo STS for authentication (configured at Liatrio org level)
 - Template starts at version `v0.1.0` with guidance for users to reset versioning
 - Language-specific build/release steps added by users during customization
 
 ### Pre-commit Hook Flexibility
+
 - `no-commit-to-branch` hook should be configurable (enabled via local config, not enforced by default)
 - Document how to enable/disable in CONTRIBUTING.md
 
 ### AI Workflow Integration
+
 - Claude and OpenCode workflows require repository secrets
 - Should include clear documentation on obtaining and configuring secrets
 - Workflows should gracefully handle missing secrets (fail with helpful error messages)
 
 ### Repository Settings Automation with `gh` CLI
+
 - Use `gh api` GraphQL and REST endpoints to query and apply repository settings
 - Branch protection rules can be fetched/applied via: `gh api repos/{owner}/{repo}/branches/{branch}/protection`
 - Repository settings (issues, wikis, etc.) can be updated via: `gh api -X PATCH repos/{owner}/{repo} -F has_issues=true -F has_wiki=true`
@@ -322,17 +357,20 @@ open-source-template/
 ## 9. Success Metrics
 
 ### Immediate Success (Template Creation)
+
 1. ✅ All pre-commit hooks pass on initial code: `pre-commit run --all-files` exits 0
 2. ✅ Template repository structure is complete with all workflows and documentation
 3. ✅ GitHub "Use this template" button visible and functional
 4. ✅ Documentation clearly guides users on customization steps
 
 ### Adoption Success
+
 1. 🎯 At least 2 Liatrio teams create projects from template
 2. 🎯 Template users can complete setup in <30 minutes (from template creation to first commit)
 3. 🎯 Zero critical bugs in template infrastructure (CI, pre-commit, dependencies)
 
 ### Quality Success (Ongoing)
+
 1. 🎯 All template-derived projects maintain green CI status
 2. 🎯 Semantic-release successfully creates versions for template-derived projects
 3. 🎯 Documentation questions account for <10% of template-related support issues

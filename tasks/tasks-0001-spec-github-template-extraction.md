@@ -49,7 +49,7 @@ This task list breaks down the implementation of the specification defined in `0
 
 ## Tasks
 
-- [~] 1.0 Create minimal repository structure with core configuration files
+- [x] 1.0 Create minimal repository structure with core configuration files
   - Demo Criteria: "Repository has all required directories (.github/, docs/) and base configuration files (.gitignore, LICENSE with Apache 2.0 and Liatrio attribution, .markdownlint.yaml); pre-commit hooks can be installed successfully"
   - Proof Artifact(s): "CLI: `tree -L 3` shows directory structure; `ls -la` shows .gitignore, LICENSE, .markdownlint.yaml; `cat LICENSE` shows Apache 2.0 with Liatrio copyright; `pre-commit install` succeeds"
   - [x] 1.1 Create core directory structure: `.github/workflows/`, `.github/ISSUE_TEMPLATE/`, `.github/chainguard/`, `docs/`, `scripts/`
@@ -58,16 +58,16 @@ This task list breaks down the implementation of the specification defined in `0
   - [x] 1.4 Copy `.markdownlint.yaml` from source repository to maintain consistent markdown linting rules
   - [x] 1.5 Verify directory structure with `tree -L 3` and confirm all base configuration files exist with `ls -la`
 
-- [ ] 2.0 Configure language-agnostic pre-commit hooks and code quality automation
+- [~] 2.0 Configure language-agnostic pre-commit hooks and code quality automation
   - Demo Criteria: "Pre-commit hooks install and run successfully on initial repository state; all hooks pass with no errors; configuration includes YAML validation, markdown linting, commitlint, trailing whitespace removal, end-of-file fixer, and commented autoupdate schedule"
   - Proof Artifact(s): "CLI: `pre-commit run --all-files` exits 0 with all hooks showing 'Passed' status; `grep 'autoupdate.*schedule.*quarterly' .pre-commit-config.yaml` finds commented schedule; all language-agnostic hooks present"
-  - [ ] 2.1 Copy `.pre-commit-config.yaml` from `~/Liatrio/repos/spec-driven-workflow/.pre-commit-config.yaml` to use as starting point
-  - [ ] 2.2 Remove Python-specific hooks (ruff, local pytest hook) from the configuration
-  - [ ] 2.3 Keep and verify language-agnostic hooks: pre-commit-hooks (trailing-whitespace, end-of-file-fixer, check-yaml), markdownlint-cli2, commitlint
-  - [ ] 2.4 Add commented autoupdate schedule: `# ci: autoupdate: schedule: quarterly` at the top of the file
-  - [ ] 2.5 Configure `no-commit-to-branch` hook but make it optional (document how to enable in local `.pre-commit-config.local.yaml`)
-  - [ ] 2.6 Install pre-commit hooks with `pre-commit install` and run `pre-commit run --all-files` to verify all hooks pass on initial state
-  - [ ] 2.7 Add section to CONTRIBUTING.md documenting how to add language-specific hooks (with examples: eslint, black, golangci-lint)
+  - [x] 2.1 Copy `.pre-commit-config.yaml` from `~/Liatrio/repos/spec-driven-workflow/.pre-commit-config.yaml` to use as starting point
+  - [x] 2.2 Remove Python-specific hooks (ruff, local pytest hook) from the configuration
+  - [x] 2.3 Keep and verify language-agnostic hooks: pre-commit-hooks (trailing-whitespace, end-of-file-fixer, check-yaml), markdownlint-cli2, commitlint
+  - [x] 2.4 Add commented autoupdate schedule: `# ci: autoupdate: schedule: quarterly` at the top of the file
+  - [x] 2.5 Configure `no-commit-to-branch` hook but make it optional (document how to enable in local `.pre-commit-config.local.yaml`)
+  - [x] 2.6 Install pre-commit hooks with `pre-commit install` and run `pre-commit run --all-files` to verify all hooks pass on initial state
+  - [x] 2.7 Add section to CONTRIBUTING.md documenting how to add language-specific hooks (with examples: eslint, black, golangci-lint)
 
 - [ ] 3.0 Create functional CI/CD workflow templates with placeholder jobs
   - Demo Criteria: "CI workflow YAML is valid and contains working placeholder jobs with clear customization documentation"

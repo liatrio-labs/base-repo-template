@@ -8,7 +8,7 @@ issuer: https://token.actions.githubusercontent.com
 # Note: Octo STS must be configured at the organization level before this will work.
 # This file is referenced by the release workflow (.github/workflows/release.yml)
 # with the identity "main-semantic-release"
-subject_pattern: "repo:liatrio/open-source-template:ref:refs/heads/main"
+subject_pattern: "repo:liatrio-labs/open-source-project-template:ref:refs/heads/main"
 
 permissions:
   contents: write

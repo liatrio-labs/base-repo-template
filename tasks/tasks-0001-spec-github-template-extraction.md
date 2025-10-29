@@ -108,7 +108,7 @@ This task list breaks down the implementation of the specification defined in `0
   - [x] 5.10 Use a link checker (e.g., markdown-link-check) to validate all documentation URLs are valid
   - [x] 5.11 Enable "Template repository" setting in GitHub repository settings (Settings → General → Template repository checkbox)
 
-- [~] 6.0 Capture and document repository settings automation
+- [x] 6.0 Capture and document repository settings automation
   - Demo Criteria: "Repository settings from spec-driven-workflow are captured and documented; automation script/commands provided for applying settings; manual configuration steps documented as fallback"
   - Proof Artifact(s): "CLI: `gh api repos/liatrio/spec-driven-workflow` returns settings; `docs/repository-settings.md` contains captured settings and gh commands; optional `scripts/apply-repo-settings.sh` is idempotent"
   - [x] 6.1 Use `gh api repos/liatrio/spec-driven-workflow` to fetch and save current repository settings (has_issues, has_wiki, has_discussions, etc.)

@@ -4,13 +4,14 @@ This task list breaks down the implementation of the specification defined in `0
 
 ## Relevant Files
 
-**To be created in `open-source-template/`:**
+**Created in `open-source-template/`:**
 
-- `.github/workflows/ci.yml` - Placeholder CI workflow with test and lint jobs
-- `.github/workflows/release.yml` - Semantic release automation workflow
+- `.github/workflows/ci.yml` - Placeholder CI workflow with test and lint jobs (language-agnostic)
+- `.github/workflows/release.yml` - Semantic release automation workflow with language-agnostic placeholders
 - `.github/workflows/claude.yml` - Claude Code AI integration workflow
 - `.github/workflows/opencode-gpt-5-codex.yml` - OpenCode GPT-5 Codex workflow
-- `.github/chainguard/main-semantic-release.sts.yaml` - Chainguard Octo STS configuration
+- `.github/chainguard/main-semantic-release.sts.yaml` - Chainguard Octo STS configuration with customization docs
+- `.releaserc.json` - Semantic-release configuration with conventional commit rules
 - `.github/ISSUE_TEMPLATE/bug_report.yml` - Generalized bug report template
 - `.github/ISSUE_TEMPLATE/feature_request.yml` - Generalized feature request template
 - `.github/ISSUE_TEMPLATE/config.yml` - Issue template configuration
@@ -80,7 +81,7 @@ This task list breaks down the implementation of the specification defined in `0
   - [x] 3.6 Add inline YAML comments explaining customization points and linking to GitHub Actions Marketplace
   - [x] 3.7 Validate YAML syntax with `yamllint .github/workflows/ci.yml` or GitHub Actions workflow validator
 
-- [~] 4.0 Configure semantic release automation and AI workflow integrations
+- [x] 4.0 Configure semantic release automation and AI workflow integrations
   - Demo Criteria: "Release workflow is configured for semantic-release starting at v0.1.0 with user reset documentation; Claude and OpenCode workflows are present with setup documentation; Octo STS configuration file exists with subject customization docs"
   - Proof Artifact(s): "Files exist: `.github/workflows/release.yml`, `.github/workflows/claude.yml`, `.github/workflows/opencode-gpt-5-codex.yml`, `.github/chainguard/main-semantic-release.sts.yaml`; YAML validation passes for all workflows; release.yml or docs mention v0.1.0 and versioning reset instructions"
   - [x] 4.1 Copy `.github/workflows/release.yml` from source and remove Python-specific build/release steps (uv build, PyPI publish)
@@ -92,20 +93,20 @@ This task list breaks down the implementation of the specification defined in `0
   - [x] 4.7 Add documentation comment in Octo STS file explaining how to customize the subject for new repositories
   - [x] 4.8 Validate all workflow YAML files with `yamllint .github/workflows/*.yml`
 
-- [ ] 5.0 Create comprehensive documentation and GitHub templates
+- [~] 5.0 Create comprehensive documentation and GitHub templates
   - Demo Criteria: "README explains template usage with quick start, documents GitHub secrets (CLAUDE_CODE_OAUTH_TOKEN, OPENAI_API_KEY_FOR_OPENCODE, Octo STS), and includes license change instructions; CONTRIBUTING covers development workflow and conventional commits; issue/PR templates are generalized; docs/development.md provides detailed setup guidance; all documentation links are valid; 'Template repository' setting enabled in GitHub"
   - Proof Artifact(s): "Files exist and render correctly: `README.md`, `CONTRIBUTING.md`, `docs/development.md`, `.github/ISSUE_TEMPLATE/*.yml`, `.github/pull_request_template.md`; all markdown passes linting; link checker validates all URLs; README contains secrets documentation and license change instructions; GitHub repository shows 'Template repository' badge/setting enabled"
-  - [ ] 5.1 Create `README.md` with sections: template purpose/value proposition, quick start (clone, setup, pre-commit install), "Use this template" button instructions, customization checklist (project name, language/framework, CI/CD, secrets, license)
-  - [ ] 5.2 Add GitHub secrets documentation section to README covering: `CLAUDE_CODE_OAUTH_TOKEN`, `OPENAI_API_KEY_FOR_OPENCODE`, and Octo STS (note: configured at org level)
-  - [ ] 5.3 Add "Changing the License" section to README explaining how to replace Apache 2.0 with another license if needed
-  - [ ] 5.4 Create `CONTRIBUTING.md` with: Conventional Commits guide and examples, branch naming conventions, development workflow (setup, pre-commit, testing), placeholder sections for language-specific contribution guidelines
-  - [ ] 5.5 Create `docs/development.md` with: local development setup guidance, environment variables best practices, testing/QA approach, recommended branch protection rules (from spec-driven-workflow), placeholder sections for project-specific customizations
-  - [ ] 5.6 Copy issue templates from `~/Liatrio/repos/spec-driven-workflow/.github/ISSUE_TEMPLATE/` and generalize (remove Python/project-specific fields, make language-agnostic)
-  - [ ] 5.7 Copy PR template from source and generalize (remove Python-specific checklist items like "uv run pytest", make language-agnostic)
-  - [ ] 5.8 Create `.github/ISSUE_TEMPLATE/config.yml` to disable blank issues and link to documentation
-  - [ ] 5.9 Run `pre-commit run --all-files` to validate all markdown files pass linting
-  - [ ] 5.10 Use a link checker (e.g., markdown-link-check) to validate all documentation URLs are valid
-  - [ ] 5.11 Enable "Template repository" setting in GitHub repository settings (Settings → General → Template repository checkbox)
+  - [x] 5.1 Create `README.md` with sections: template purpose/value proposition, quick start (clone, setup, pre-commit install), "Use this template" button instructions, customization checklist (project name, language/framework, CI/CD, secrets, license)
+  - [x] 5.2 Add GitHub secrets documentation section to README covering: `CLAUDE_CODE_OAUTH_TOKEN`, `OPENAI_API_KEY_FOR_OPENCODE`, and Octo STS (note: configured at org level)
+  - [x] 5.3 Add "Changing the License" section to README explaining how to replace Apache 2.0 with another license if needed
+  - [x] 5.4 Create `CONTRIBUTING.md` with: Conventional Commits guide and examples, branch naming conventions, development workflow (setup, pre-commit, testing), placeholder sections for language-specific contribution guidelines
+  - [x] 5.5 Create `docs/development.md` with: local development setup guidance, environment variables best practices, testing/QA approach, recommended branch protection rules (from spec-driven-workflow), placeholder sections for project-specific customizations
+  - [x] 5.6 Copy issue templates from `~/Liatrio/repos/spec-driven-workflow/.github/ISSUE_TEMPLATE/` and generalize (remove Python/project-specific fields, make language-agnostic)
+  - [x] 5.7 Copy PR template from source and generalize (remove Python-specific checklist items like "uv run pytest", make language-agnostic)
+  - [x] 5.8 Create `.github/ISSUE_TEMPLATE/config.yml` to disable blank issues and link to documentation
+  - [x] 5.9 Run `pre-commit run --all-files` to validate all markdown files pass linting
+  - [x] 5.10 Use a link checker (e.g., markdown-link-check) to validate all documentation URLs are valid
+  - [x] 5.11 Enable "Template repository" setting in GitHub repository settings (Settings → General → Template repository checkbox)
 
 - [ ] 6.0 Capture and document repository settings automation
   - Demo Criteria: "Repository settings from spec-driven-workflow are captured and documented; automation script/commands provided for applying settings; manual configuration steps documented as fallback"

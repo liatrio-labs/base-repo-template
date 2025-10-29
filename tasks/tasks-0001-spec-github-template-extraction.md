@@ -80,17 +80,17 @@ This task list breaks down the implementation of the specification defined in `0
   - [x] 3.6 Add inline YAML comments explaining customization points and linking to GitHub Actions Marketplace
   - [x] 3.7 Validate YAML syntax with `yamllint .github/workflows/ci.yml` or GitHub Actions workflow validator
 
-- [ ] 4.0 Configure semantic release automation and AI workflow integrations
+- [~] 4.0 Configure semantic release automation and AI workflow integrations
   - Demo Criteria: "Release workflow is configured for semantic-release starting at v0.1.0 with user reset documentation; Claude and OpenCode workflows are present with setup documentation; Octo STS configuration file exists with subject customization docs"
   - Proof Artifact(s): "Files exist: `.github/workflows/release.yml`, `.github/workflows/claude.yml`, `.github/workflows/opencode-gpt-5-codex.yml`, `.github/chainguard/main-semantic-release.sts.yaml`; YAML validation passes for all workflows; release.yml or docs mention v0.1.0 and versioning reset instructions"
-  - [ ] 4.1 Copy `.github/workflows/release.yml` from source and remove Python-specific build/release steps (uv build, PyPI publish)
-  - [ ] 4.2 Keep semantic-release core functionality and add inline comments for language-specific build/release step placeholders
-  - [ ] 4.3 Add comment or documentation in release.yml about template starting at v0.1.0 and how users should reset versioning for their projects
-  - [ ] 4.4 Copy `.github/workflows/claude.yml` from source repository (no modifications needed if already generic)
-  - [ ] 4.5 Copy `.github/workflows/opencode-gpt-5-codex.yml` from source repository
-  - [ ] 4.6 Copy or create `.github/chainguard/main-semantic-release.sts.yaml` Octo STS configuration file from source
-  - [ ] 4.7 Add documentation comment in Octo STS file explaining how to customize the subject for new repositories
-  - [ ] 4.8 Validate all workflow YAML files with `yamllint .github/workflows/*.yml`
+  - [x] 4.1 Copy `.github/workflows/release.yml` from source and remove Python-specific build/release steps (uv build, PyPI publish)
+  - [x] 4.2 Keep semantic-release core functionality and add inline comments for language-specific build/release step placeholders
+  - [x] 4.3 Add comment or documentation in release.yml about template starting at v0.1.0 and how users should reset versioning for their projects
+  - [x] 4.4 Copy `.github/workflows/claude.yml` from source repository (no modifications needed if already generic)
+  - [x] 4.5 Copy `.github/workflows/opencode-gpt-5-codex.yml` from source repository
+  - [x] 4.6 Copy or create `.github/chainguard/main-semantic-release.sts.yaml` Octo STS configuration file from source
+  - [x] 4.7 Add documentation comment in Octo STS file explaining how to customize the subject for new repositories
+  - [x] 4.8 Validate all workflow YAML files with `yamllint .github/workflows/*.yml`
 
 - [ ] 5.0 Create comprehensive documentation and GitHub templates
   - Demo Criteria: "README explains template usage with quick start, documents GitHub secrets (CLAUDE_CODE_OAUTH_TOKEN, OPENAI_API_KEY_FOR_OPENCODE, Octo STS), and includes license change instructions; CONTRIBUTING covers development workflow and conventional commits; issue/PR templates are generalized; docs/development.md provides detailed setup guidance; all documentation links are valid; 'Template repository' setting enabled in GitHub"

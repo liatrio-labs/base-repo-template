@@ -93,7 +93,7 @@ This task list breaks down the implementation of the specification defined in `0
   - [x] 4.7 Add documentation comment in Octo STS file explaining how to customize the subject for new repositories
   - [x] 4.8 Validate all workflow YAML files with `yamllint .github/workflows/*.yml`
 
-- [~] 5.0 Create comprehensive documentation and GitHub templates
+- [x] 5.0 Create comprehensive documentation and GitHub templates
   - Demo Criteria: "README explains template usage with quick start, documents GitHub secrets (CLAUDE_CODE_OAUTH_TOKEN, OPENAI_API_KEY_FOR_OPENCODE, Octo STS), and includes license change instructions; CONTRIBUTING covers development workflow and conventional commits; issue/PR templates are generalized; docs/development.md provides detailed setup guidance; all documentation links are valid; 'Template repository' setting enabled in GitHub"
   - Proof Artifact(s): "Files exist and render correctly: `README.md`, `CONTRIBUTING.md`, `docs/development.md`, `.github/ISSUE_TEMPLATE/*.yml`, `.github/pull_request_template.md`; all markdown passes linting; link checker validates all URLs; README contains secrets documentation and license change instructions; GitHub repository shows 'Template repository' badge/setting enabled"
   - [x] 5.1 Create `README.md` with sections: template purpose/value proposition, quick start (clone, setup, pre-commit install), "Use this template" button instructions, customization checklist (project name, language/framework, CI/CD, secrets, license)
@@ -108,14 +108,14 @@ This task list breaks down the implementation of the specification defined in `0
   - [x] 5.10 Use a link checker (e.g., markdown-link-check) to validate all documentation URLs are valid
   - [x] 5.11 Enable "Template repository" setting in GitHub repository settings (Settings → General → Template repository checkbox)
 
-- [ ] 6.0 Capture and document repository settings automation
+- [~] 6.0 Capture and document repository settings automation
   - Demo Criteria: "Repository settings from spec-driven-workflow are captured and documented; automation script/commands provided for applying settings; manual configuration steps documented as fallback"
   - Proof Artifact(s): "CLI: `gh api repos/liatrio/spec-driven-workflow` returns settings; `docs/repository-settings.md` contains captured settings and gh commands; optional `scripts/apply-repo-settings.sh` is idempotent"
-  - [ ] 6.1 Use `gh api repos/liatrio/spec-driven-workflow` to fetch and save current repository settings (has_issues, has_wiki, has_discussions, etc.)
-  - [ ] 6.2 Use `gh api repos/liatrio/spec-driven-workflow/branches/main/protection` to fetch and save branch protection rules for main branch
-  - [ ] 6.3 Create `docs/repository-settings.md` documenting captured settings as recommended configuration for template users
-  - [ ] 6.4 Add `gh api` PATCH command examples to `docs/repository-settings.md` for applying settings (e.g., `gh api -X PATCH repos/{owner}/{repo} -F has_issues=true`)
-  - [ ] 6.5 Add `gh api` PUT command examples for applying branch protection rules with captured configuration
-  - [ ] 6.6 (Optional) Create `scripts/apply-repo-settings.sh` bash script that applies settings via gh CLI; ensure script is idempotent and safe to run multiple times
-  - [ ] 6.7 Add manual configuration section to `docs/repository-settings.md` with step-by-step GitHub UI instructions and screenshots/links as fallback
-  - [ ] 6.8 Test that gh commands work by running them in dry-run mode or against a test repository
+  - [x] 6.1 Use `gh api repos/liatrio/spec-driven-workflow` to fetch and save current repository settings (has_issues, has_wiki, has_discussions, etc.)
+  - [x] 6.2 Use `gh api repos/liatrio/spec-driven-workflow/branches/main/protection` to fetch and save branch protection rules for main branch
+  - [x] 6.3 Create `docs/repository-settings.md` documenting captured settings as recommended configuration for template users
+  - [x] 6.4 Add `gh api` PATCH command examples to `docs/repository-settings.md` for applying settings (e.g., `gh api -X PATCH repos/{owner}/{repo} -F has_issues=true`)
+  - [x] 6.5 Add `gh api` PUT command examples for applying branch protection rules with captured configuration
+  - [x] 6.6 (Optional) Create `scripts/apply-repo-settings.sh` bash script that applies settings via gh CLI; ensure script is idempotent and safe to run multiple times
+  - [x] 6.7 Add manual configuration section to `docs/repository-settings.md` with step-by-step GitHub UI instructions and screenshots/links as fallback
+  - [x] 6.8 Test that gh commands work by running them in dry-run mode or against a test repository

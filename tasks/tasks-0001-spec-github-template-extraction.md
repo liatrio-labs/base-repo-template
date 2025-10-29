@@ -49,14 +49,14 @@ This task list breaks down the implementation of the specification defined in `0
 
 ## Tasks
 
-- [ ] 1.0 Create minimal repository structure with core configuration files
+- [~] 1.0 Create minimal repository structure with core configuration files
   - Demo Criteria: "Repository has all required directories (.github/, docs/) and base configuration files (.gitignore, LICENSE with Apache 2.0 and Liatrio attribution, .markdownlint.yaml); pre-commit hooks can be installed successfully"
   - Proof Artifact(s): "CLI: `tree -L 3` shows directory structure; `ls -la` shows .gitignore, LICENSE, .markdownlint.yaml; `cat LICENSE` shows Apache 2.0 with Liatrio copyright; `pre-commit install` succeeds"
-  - [ ] 1.1 Create core directory structure: `.github/workflows/`, `.github/ISSUE_TEMPLATE/`, `.github/chainguard/`, `docs/`, `scripts/`
-  - [ ] 1.2 Copy `LICENSE` file from `~/Liatrio/repos/spec-driven-workflow/LICENSE` and verify Apache 2.0 license with Liatrio copyright attribution
-  - [ ] 1.3 Create `.gitignore` file with common ignore patterns (temporary files, IDE configs, OS files, logs) - make it language-agnostic (no Python/Node/etc. specific entries)
-  - [ ] 1.4 Copy `.markdownlint.yaml` from source repository to maintain consistent markdown linting rules
-  - [ ] 1.5 Verify directory structure with `tree -L 3` and confirm all base configuration files exist with `ls -la`
+  - [x] 1.1 Create core directory structure: `.github/workflows/`, `.github/ISSUE_TEMPLATE/`, `.github/chainguard/`, `docs/`, `scripts/`
+  - [x] 1.2 Copy `LICENSE` file from `~/Liatrio/repos/spec-driven-workflow/LICENSE` and verify Apache 2.0 license with Liatrio copyright attribution
+  - [x] 1.3 Create `.gitignore` file with common ignore patterns (temporary files, IDE configs, OS files, logs) - make it language-agnostic (no Python/Node/etc. specific entries)
+  - [x] 1.4 Copy `.markdownlint.yaml` from source repository to maintain consistent markdown linting rules
+  - [x] 1.5 Verify directory structure with `tree -L 3` and confirm all base configuration files exist with `ls -la`
 
 - [ ] 2.0 Configure language-agnostic pre-commit hooks and code quality automation
   - Demo Criteria: "Pre-commit hooks install and run successfully on initial repository state; all hooks pass with no errors; configuration includes YAML validation, markdown linting, commitlint, trailing whitespace removal, end-of-file fixer, and commented autoupdate schedule"

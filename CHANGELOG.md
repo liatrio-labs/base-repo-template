@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file.
 
+## [1.0.1](https://github.com/liatrio-labs/open-source-project-template/compare/v1.0.0...v1.0.1) (2025-11-10)
+
+
+### Bug Fixes
+
+* address audit feedback - repository references, documentation, and script enhancements ([#1](https://github.com/liatrio-labs/open-source-project-template/issues/1)) ([3764aca](https://github.com/liatrio-labs/open-source-project-template/commit/3764aca7d203519e778040f2d078bf2f2b24366b))
+
 # 1.0.0 (2025-10-29)
 
 

@@ -264,11 +264,17 @@ Reference `docs/repository-settings.md` in the template repository for expected 
    - Use `gh api repos/{owner}/{repo}` to get `description` and `default_branch`
 
 2. **Fetch Branch Protection Rules** (if GitHub CLI available):
-   - **First, check for rulesets** (modern approach): Use `gh api repos/{owner}/{repo}/rulesets` to list all rulesets, then filter for branch rulesets targeting the default branch
-   - **If no rulesets found, check legacy branch protection**: Use `gh api repos/{owner}/{repo}/branches/{default_branch}/protection` to get legacy branch protection
-   - **Alternative check**: Use `gh ruleset check --default --repo {owner}/{repo}` if available
-   - Extract: required reviews, status checks, conversation resolution, force push restrictions, deletion restrictions
-   - **Important**: Check both rulesets API and legacy protection API - newer repositories use rulesets, but some may still use legacy protection
+   - **Step 1: Check for rulesets** (modern approach - check this FIRST):
+     - Execute: `gh api repos/{owner}/{repo}/rulesets` to get all rulesets
+     - Filter the JSON response for rulesets where `target == "branch"` and `enforcement == "active"`
+     - Check if any active branch rulesets target the default branch (check `conditions.ref_name.include` array or `conditions.ref_name.pattern`)
+     - If rulesets found: Extract required reviews, status checks, conversation resolution, force push restrictions, deletion restrictions from the ruleset configuration
+   - **Step 2: If no active branch rulesets found, check legacy branch protection**:
+     - Execute: `gh api repos/{owner}/{repo}/branches/{default_branch}/protection`
+     - If this returns a 404 or empty response, branch protection is not configured
+     - If protection exists: Extract required reviews, status checks, conversation resolution, force push restrictions, deletion restrictions
+   - **Step 3: Alternative check** (if available): `gh ruleset check --default --repo {owner}/{repo}`
+   - **Important**: You MUST check rulesets API first, then fall back to legacy protection API. Do not skip the rulesets check - newer repositories use rulesets, not legacy protection.
 
 3. **Check CI/CD Workflow History and Status** (if GitHub CLI available):
    - **List recent workflow runs**: Use `gh run list --limit 20` to get recent workflow run history
@@ -290,15 +296,20 @@ Reference `docs/repository-settings.md` in the template repository for expected 
      - **Enhancement**: Workflows running but could be optimized (e.g., slow runs, unnecessary jobs)
 
 4. **Verify Renovate Bot GitHub App Installation** (if GitHub CLI available):
-   - **First, check organization installations** (most reliable for new repos): Use `gh api orgs/{org}/installations` and filter for Renovate app by app_slug: renovate. This verifies installation even if Renovate hasn't created PRs yet.
-   - **Then, check for Renovate activity** (confirms app is active): Use `gh pr list --author "renovate[bot]" --limit 1` to check for Renovate-created PRs (indicates app is installed and active)
-   - **Alternative activity check**: Use `gh api repos/{owner}/{repo}/pulls?state=all&per_page=1` and filter for `renovate[bot]` user
-   - **Documentation logic**:
-     - If organization installations check shows Renovate app installed: Document as "Installed (verified via organization installations)"
-     - If Renovate PRs found: Document as "Installed and Active (verified via PR activity)"
-     - If `.github/renovate.json` exists but no installation found: Flag as Important Gap (app may not be installed)
-     - If installation found but no PRs yet: Document as "Installed (app configured, waiting for scheduled scan)" - this is normal for new repos
-   - Document installation status: Installed (verified via installations) | Installed and Active (verified via PRs) | Not Installed (no installation found) | Cannot Verify (CLI unavailable)
+   - **Step 1: Check organization installations FIRST** (most reliable for new repos - this MUST be checked):
+     - Execute: `gh api orgs/{org}/installations` to get all GitHub App installations for the organization
+     - Parse the JSON response and filter for installations where `app_slug == "renovate"`
+     - If Renovate app found in installations: The app is installed at organization level (even if it hasn't created PRs yet)
+     - **CRITICAL**: Do not skip this check - it's the most reliable way to verify installation for new repos
+   - **Step 2: Check for Renovate PR activity** (confirms app is active):
+     - Execute: `gh pr list --author "renovate[bot]" --limit 1` to check for Renovate-created PRs
+     - Alternative: `gh api repos/{owner}/{repo}/pulls?state=all&per_page=10` and filter results for `user.login == "renovate[bot]"`
+   - **Documentation logic** (apply in order):
+     - If organization installations check shows Renovate app installed AND PRs found: Document as "Installed and Active (verified via organization installations and PR activity)"
+     - If organization installations check shows Renovate app installed BUT no PRs found: Document as "Installed (verified via organization installations, waiting for scheduled scan)" - this is normal for new repos
+     - If organization installations check shows NO Renovate app BUT `.github/renovate.json` exists: Flag as Important Gap (app may not be installed)
+     - If organization installations check fails or CLI unavailable: Document as "Cannot Verify (CLI unavailable or insufficient permissions)"
+   - **IMPORTANT**: Always check organization installations FIRST before checking PR activity. Do not rely solely on PR activity to determine installation status.
 
 5. **Compare Against Template Baseline:**
    - Reference Template Settings Reference section above

@@ -384,11 +384,7 @@ Once customization of the templated repo is complete and your project is in a go
 
    ```bash
    # Using Claude CLI (replace /path/to/my/repo with your actual repository path)
-   claude "Read prompts/repository-template-audit.md and follow its instructions. Use '/path/to/my/repo' as the target_repository and 'liatrio-labs/open-source-project-template' as the template_repository."
-
-   # Alternative: In your repository directory, you can use $(pwd)
-   # cd /path/to/my/repo
-   # claude "Read prompts/repository-template-audit.md and follow its instructions. Use '$(pwd)' as the target_repository and 'liatrio-labs/open-source-project-template' as the template_repository."
+   claude "Use the \`gh\` CLI to read the prompt at prompts/repository-template-audit.md from the repository liatrio-labs/open-source-project-template and follow its instructions. Use '/path/to/my/repo' as the target_repository and 'liatrio-labs/open-source-project-template' as the template_repository."
    ```
 
 2. **What the audit checks:**

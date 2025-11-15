@@ -24,7 +24,7 @@ Use an AI assistant to automate the entire process—from repository creation to
 
 ```bash
 # Using Claude CLI
-claude "Read the prompt at https://raw.githubusercontent.com/liatrio-labs/open-source-project-template/main/prompts/repository-initializer.md and follow its instructions. Use 'my-new-project' as the project_name, 'A description of my project' as the project_description, '/path/to/projects' as the local_parent_folder, and 'Node.js' as the primary_language."
+claude "Use the \`gh\` CLI to read the prompt at prompts/repository-initializer.md from the repository liatrio-labs/open-source-project-template and follow its instructions. Use 'my-new-project' as the project_name, 'A description of my project' as the project_description, '/path/to/projects' as the local_parent_folder, and 'Node.js' as the primary_language."
 ```
 
 The initializer will:

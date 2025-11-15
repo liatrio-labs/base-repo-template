@@ -264,9 +264,11 @@ Reference `docs/repository-settings.md` in the template repository for expected 
    - Use `gh api repos/{owner}/{repo}` to get `description` and `default_branch`
 
 2. **Fetch Branch Protection Rules** (if GitHub CLI available):
-   - Use `gh api repos/{owner}/{repo}/branches/{default_branch}/protection` to get branch protection
-   - Or use `gh ruleset check --default` for newer rulesets
+   - **First, check for rulesets** (modern approach): Use `gh api repos/{owner}/{repo}/rulesets` to list all rulesets, then filter for branch rulesets targeting the default branch
+   - **If no rulesets found, check legacy branch protection**: Use `gh api repos/{owner}/{repo}/branches/{default_branch}/protection` to get legacy branch protection
+   - **Alternative check**: Use `gh ruleset check --default --repo {owner}/{repo}` if available
    - Extract: required reviews, status checks, conversation resolution, force push restrictions, deletion restrictions
+   - **Important**: Check both rulesets API and legacy protection API - newer repositories use rulesets, but some may still use legacy protection
 
 3. **Check CI/CD Workflow History and Status** (if GitHub CLI available):
    - **List recent workflow runs**: Use `gh run list --limit 20` to get recent workflow run history
@@ -288,12 +290,15 @@ Reference `docs/repository-settings.md` in the template repository for expected 
      - **Enhancement**: Workflows running but could be optimized (e.g., slow runs, unnecessary jobs)
 
 4. **Verify Renovate Bot GitHub App Installation** (if GitHub CLI available):
-   - Check if Renovate Bot is installed by verifying Renovate activity:
-     - Use `gh pr list --author "renovate[bot]" --limit 1` to check for Renovate-created PRs (indicates app is installed and active)
-     - Or use `gh api repos/{owner}/{repo}/pulls?state=all&per_page=1` and filter for `renovate[bot]` user
-     - Alternative: Check organization installations with `gh api orgs/{org}/installations` and filter for Renovate app by app_slug: renovate
-   - If `.github/renovate.json` exists but no Renovate activity found, flag as Important Gap (app may not be installed)
-   - Document installation status: Installed (verified via activity) | Not Installed (no activity found) | Cannot Verify (CLI unavailable or no activity yet)
+   - **First, check organization installations** (most reliable for new repos): Use `gh api orgs/{org}/installations` and filter for Renovate app by app_slug: renovate. This verifies installation even if Renovate hasn't created PRs yet.
+   - **Then, check for Renovate activity** (confirms app is active): Use `gh pr list --author "renovate[bot]" --limit 1` to check for Renovate-created PRs (indicates app is installed and active)
+   - **Alternative activity check**: Use `gh api repos/{owner}/{repo}/pulls?state=all&per_page=1` and filter for `renovate[bot]` user
+   - **Documentation logic**:
+     - If organization installations check shows Renovate app installed: Document as "Installed (verified via organization installations)"
+     - If Renovate PRs found: Document as "Installed and Active (verified via PR activity)"
+     - If `.github/renovate.json` exists but no installation found: Flag as Important Gap (app may not be installed)
+     - If installation found but no PRs yet: Document as "Installed (app configured, waiting for scheduled scan)" - this is normal for new repos
+   - Document installation status: Installed (verified via installations) | Installed and Active (verified via PRs) | Not Installed (no installation found) | Cannot Verify (CLI unavailable)
 
 5. **Compare Against Template Baseline:**
    - Reference Template Settings Reference section above

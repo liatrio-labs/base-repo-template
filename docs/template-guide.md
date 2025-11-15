@@ -4,7 +4,63 @@ This guide provides detailed instructions for customizing the Liatrio Open Sourc
 
 ## Customization Checklist
 
-After creating your repository from this template, complete the following steps:
+After creating your repository from this template, choose one of the following customization paths:
+
+### Path 1: AI-Guided Customization (Recommended)
+
+Use an AI assistant to guide you through the customization process:
+
+1. **Use the customization prompt**: Provide the AI with the prompt at [`prompts/repository-template-customizer.md`](../prompts/repository-template-customizer.md)
+2. **Provide required arguments**:
+   - `target_repository`: Your repository (GitHub URL, `org/repo`, or local path)
+   - `project_name`: Your project name
+   - `project_description`: One-sentence project description
+   - `primary_language`: Your primary language/framework (optional)
+   - `customization_goals`: Optional priorities (optional)
+3. **Follow the AI's guidance**: The AI will guide you through each customization step, validate changes, and ensure completeness
+4. **Review the customization plan**: The AI generates a `customization-plan.md` file documenting all changes made and listing any remaining customization steps.
+
+**Example usage:**
+
+```bash
+# Using Claude CLI (replace /path/to/my/repo with your actual repository path)
+claude "Read prompts/repository-template-customizer.md and follow its instructions. Use '/path/to/my/repo' as the target_repository, 'My Project Name' as the project_name, 'A description of my project' as the project_description, and 'Node.js' as the primary_language. Incorporate these additional goals: <your custom goal 1>, <your custom goal 2>"
+
+# Alternative: In your repository directory, you can use $(pwd)
+# cd /path/to/my/repo
+# claude "Read prompts/repository-template-customizer.md and follow its instructions. Use '$(pwd)' as the target_repository, 'My Project Name' as the project_name, 'A description of my project' as the project_description, and 'Node.js' as the primary_language. Incorporate these additional goals: <your custom goal 1>, <your custom goal 2>"
+```
+
+The AI will handle the entire customization process, including:
+
+- Updating repository identity and metadata
+- Customizing CI/CD workflows for your language
+- Updating documentation files
+- Removing template-specific content (including `CHANGELOG.md` and cleaning up `docs/repository-settings.md`)
+- Installing and validating pre-commit hooks
+- Auditing and updating GitHub settings
+- Verifying GitHub App installations
+
+Review the prompt to get more detail about how it works and the actions it will instruct the AI to perform.
+
+**After Customization - Run the Audit:**
+
+Once you've completed customization and your repository is in a good state for your project, run the audit prompt to verify compliance and identify any remaining gaps:
+
+```bash
+# Using Claude CLI (replace /path/to/my/repo with your actual repository path)
+claude "Read prompts/repository-template-audit.md and follow its instructions. Use '/path/to/my/repo' as the target_repository and 'liatrio-labs/open-source-project-template' as the template_repository."
+
+# Alternative: In your repository directory, you can use $(pwd)
+# cd /path/to/my/repo
+# claude "Read prompts/repository-template-audit.md and follow its instructions. Use '$(pwd)' as the target_repository and 'liatrio-labs/open-source-project-template' as the template_repository."
+```
+
+The audit will check for missing template files, configuration drift, CI/CD workflow health, repository settings alignment, and documentation completeness. See [`prompts/repository-template-audit.md`](../prompts/repository-template-audit.md) for detailed audit methodology.
+
+### Path 2: Manual Customization
+
+Follow the checklist below to customize your repository manually:
 
 ### Repository Configuration
 
@@ -36,6 +92,8 @@ After creating your repository from this template, complete the following steps:
 - [ ] Review and update issue templates in `.github/ISSUE_TEMPLATE/`
 - [ ] Customize pull request template in `.github/pull_request_template.md`
 - [ ] Update `docs/development.md` with project-specific setup instructions
+- [ ] Remove `CHANGELOG.md` (if present) - semantic-release will generate a new one based on your commits
+- [ ] Remove or update `docs/repository-settings.md` - this file contains template-specific repository settings guidance and should be cleaned up after customization
 
 ### Secrets and Authentication
 
@@ -54,6 +112,21 @@ See [Required GitHub Secrets](#required-github-secrets) for details.
 - [ ] Review repository settings (Issues, Wikis, Discussions, etc.)
 
 See [docs/development.md](development.md) for recommended repository settings.
+
+### Post-Customization Verification
+
+After completing manual customization and getting your repository in a good state, run the audit prompt to verify compliance:
+
+```bash
+# Using Claude CLI (replace /path/to/my/repo with your actual repository path)
+claude "Read prompts/repository-template-audit.md and follow its instructions. Use '/path/to/my/repo' as the target_repository and 'liatrio-labs/open-source-project-template' as the template_repository."
+
+# Alternative: In your repository directory, you can use $(pwd)
+# cd /path/to/my/repo
+# claude "Read prompts/repository-template-audit.md and follow its instructions. Use '$(pwd)' as the target_repository and 'liatrio-labs/open-source-project-template' as the template_repository."
+```
+
+The audit will identify any remaining gaps, configuration drift, or compliance issues. See [`prompts/repository-template-audit.md`](../prompts/repository-template-audit.md) for detailed audit methodology.
 
 ## Features
 

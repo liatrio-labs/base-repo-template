@@ -120,42 +120,98 @@ Execute actions in the following order, verifying each step before moving on:
    - Update `.github/workflows/release.yml` with repository-specific names, permissions, and triggers as needed.
    - Tailor `.pre-commit-config.yaml` hooks for the project's stack while retaining baseline quality gates.
    - Review `.github/renovate.json` grouping/routing rules; update reviewers if not using `liatrio-labs-maintainers`.
+     - **Important**: When removing reviewers/assignees, ensure JSON syntax remains valid (no trailing commas after the last property in objects/arrays)
+     - Validate JSON syntax after editing: `cat .github/renovate.json | jq .` or use a JSON validator
 3. **Documentation & Templates**
-   - Refresh `CONTRIBUTING.md`, `docs/development.md`, `docs/template-guide.md` (if retaining) with project context, setup steps, and workflow references.
+   - **Update `docs/development.md`**:
+     - Replace placeholder repository URLs (e.g., `https://github.com/liatrio/[your-repo-name].git`) with the actual repository URL
+     - Remove template-specific sections (e.g., "Enable 'Template repository'" checkbox instructions)
+     - Update references to template-specific scripts/docs (e.g., `scripts/apply-repo-settings.sh`, `docs/repository-settings.md`) - either remove these references or update them to match the project's structure
+     - Fill in language-specific prerequisites, setup commands, and examples based on `primary_language`
+     - **Remove placeholder examples for other languages**: Delete commented-out code blocks and examples for languages that don't match `primary_language` (e.g., if `primary_language` is Node.js, remove Python/Go/Rust/Java examples)
+     - Update environment variable examples and project-specific configuration sections
+   - **Update `CONTRIBUTING.md`**:
+     - Replace any placeholder repository references with the actual repository URL
+     - Update language-specific examples and guidelines based on `primary_language`
+     - **Remove placeholder examples for other languages**: Delete commented-out code blocks and examples for languages that don't match `primary_language`
+     - Remove or update any template-specific references
+   - **Update `docs/template-guide.md`** (if retaining): Refresh with project context, setup steps, and workflow references
    - Update `CODE_OF_CONDUCT.md` with project-specific reporting channels, response owners, and any event-specific scope.
+   - **Update `.github/SECURITY.md`** (if present): Replace template repository URL in the Private Vulnerability Reporting link with the current repository URL (e.g., change `https://github.com/liatrio-labs/open-source-project-template/security/advisories/new` to `https://github.com/{owner}/{repo}/security/advisories/new`)
    - Update issue templates and PR template to mention correct project name and workflows.
-4. **Secrets, Repository Settings, Branch Protection, and GitHub App Installations**
+   - **Update `.github/ISSUE_TEMPLATE/config.yml`**: Replace template repository URLs with the current repository URLs (contact links, documentation references)
+   - **Remove template-specific content:**
+     - Remove template-maintenance prompts from the `prompts/` directory (e.g., `prompts/repository-template-customizer.md`)—these are not part of the application and should not be included in the customized repository
+     - Remove template-specific README sections (e.g., "Why Use This Template?", template customization instructions)
+     - Remove or update `docs/template-guide.md` - either delete it entirely or replace with project-specific setup documentation
+     - **Update README.md links**: If deleting `docs/template-guide.md`, remove or update all references to it in README.md (check for links in both the main content and documentation sections)
+     - Remove any references to "Liatrio Open Source Template" or template-specific instructions from README
+     - **Remove `CHANGELOG.md`** (if present) - semantic-release will generate a new changelog based on the project's commits, so the template's example changelog should be removed
+     - **Remove or update `docs/repository-settings.md`** - this file contains template-specific repository settings guidance and should be cleaned up after customization (either removed entirely or updated with project-specific settings documentation)
+     - Clean up any template-specific documentation that doesn't apply to the application repository
+4. **Pre-commit Setup & Validation**
+   - **Install pre-commit** (if not already installed):
+     - Check if pre-commit is installed: `pre-commit --version` or `which pre-commit`
+     - If not installed, install via package manager:
+       - macOS: `brew install pre-commit`
+       - Ubuntu/Debian: `sudo apt install pre-commit`
+       - pip (all platforms): `pip install pre-commit`
+   - **Install pre-commit hooks**: `pre-commit install`
+   - **Run pre-commit hooks against all files**: `pre-commit run --all-files`
+     - Fix any issues found by the hooks (formatting, linting, etc.)
+     - Re-run until all hooks pass: `pre-commit run --all-files`
+   - This ensures the repository starts with clean, validated code and catches any template-specific issues early
+5. **Secrets, Repository Settings, Branch Protection, and GitHub App Installations**
    - Verify required secrets: Octo STS subject alignment.
    - Ensure `gh` CLI is available (`gh auth status`) and user has admin permissions on `target_repository`.
-   - Fetch current GitHub settings via `gh api repos/{owner}/{repo}` and branch protection/rulesets via `gh api repos/{owner}/{repo}/branches/{default_branch}/protection` or `gh ruleset list --repo {owner}/{repo}`.
-   - Compare settings against expectations from `docs/development.md` and `docs/repository-settings.md`, documenting every delta (issues/wiki/discussions, merge strategies, delete-branch-on-merge, required status checks, review count, force-push/deletion settings, etc.).
+   - **Fetch current GitHub settings**: Use `gh api repos/{owner}/{repo}` to get general settings and `gh api repos/{owner}/{repo}/branches/{default_branch}/protection` or `gh ruleset list --repo {owner}/{repo}` to get branch protection/rulesets.
+   - **Compare settings against expectations** from `docs/development.md` and `docs/repository-settings.md`, documenting every delta (issues/wiki/discussions, merge strategies, delete-branch-on-merge, required status checks, review count, force-push/deletion settings, etc.).
+   - **Automatically apply settings updates** when possible:
+     - **If `gh` CLI is available and you have admin permissions**: Execute the `gh api` commands to update settings automatically. Do not wait for user approval - apply the changes directly.
+     - **General settings**: Use `gh api -X PATCH repos/{owner}/{repo} -F allow_squash_merge=true -F allow_merge_commit=false -F allow_rebase_merge=false -F delete_branch_on_merge=true` etc.
+     - **Branch protection**: Use `gh api -X PUT repos/{owner}/{repo}/branches/{default_branch}/protection` with appropriate payload, or `gh ruleset create` for rulesets.
+     - **Only document as manual steps** if: CLI is unavailable, permissions are insufficient, or settings require manual review due to organization policies.
+     - **Report any errors** encountered to the user.
    - **Verify Renovate Bot GitHub App Installation:**
-     - If `.github/renovate.json` exists, verify Renovate Bot is installed:
-       - Check for Renovate activity: `gh pr list --author "renovate[bot]" --limit 1` (indicates app is installed and active)
-       - Or check organization installations: `gh api orgs/{org}/installations` and filter for Renovate app by app_slug: renovate
-       - If no activity found and app not installed, flag as blocker and provide installation instructions: Install from https://github.com/apps/renovate
-     - Document installation status in customization plan
-   - Present the delta to the user, confirm which settings should change, then apply updates using `gh api -X PATCH ...` (general settings) and `gh api -X PUT .../branches/{branch}/protection` or `gh ruleset create` for branch protection/rulesets.
-   - Log every command executed (or to-be-run) and note any blockers (missing permissions, CLI unavailable, missing GitHub App installations) so the user can remediate later.
+     - If `.github/renovate.json` exists, **automatically verify** Renovate Bot installation:
+       - Execute: `gh pr list --author "renovate[bot]" --limit 1` to check for Renovate-created PRs (indicates app is installed and active)
+       - Or execute: `gh api orgs/{org}/installations` and filter for Renovate app by app_slug: renovate
+       - **Document the actual installation status** (Installed/Not Installed/Cannot Verify) based on the command results
+       - If not installed, document as an outstanding action with installation instructions: Install from https://github.com/apps/renovate
+     - **Do not leave verification as a manual step** - execute the verification commands and document the results
+   - **Log every command executed** and note any blockers (missing permissions, CLI unavailable, missing GitHub App installations) so the user can remediate later.
 
 **Validation Gate:**
 
 - Identity updates complete ✓
 - Automation customized ✓
 - Docs updated ✓
+- Template-specific content removed ✓
+- Pre-commit hooks installed and validated ✓
 - Settings audit performed ✓
-- Renovate Bot installation verified ✓
-- User-approved changes applied/logged ✓
+- Settings updates applied automatically (when possible) or blockers documented ✓
+- Renovate Bot installation verified (commands executed, status documented) ✓
+- All commands executed or blockers logged ✓
 
 ### Phase 4: Verification & Chain-of-Verification
 
 1. Re-run placeholder search to confirm replacements.
 2. Ensure CI/release workflow changes include updated names and commands.
 3. Cross-reference each action with template checklist to confirm nothing skipped.
-4. Perform Chain-of-Verification:
+4. **Validate file syntax and links:**
+   - Validate JSON files (e.g., `.github/renovate.json`): `cat .github/renovate.json | jq .` or use a JSON validator
+   - Validate YAML files: `yamllint .github/workflows/*.yml` or similar
+   - Check for broken links recursively (especially if `docs/template-guide.md` was deleted): `rg -n "docs/template-guide.md"`
+   - Verify all documentation URLs point to the correct repository
+   - **Search for remaining template placeholders**: `rg -n "\[your-repo-name\]|liatrio/\[your-repo-name\]|template repository"` - should return no matches (searches entire repository recursively)
+   - **Verify template-specific sections removed**: Check that `docs/development.md` no longer contains "Enable 'Template repository'" or similar template-specific instructions
+   - **Verify SECURITY.md URLs updated**: Check that `.github/SECURITY.md` (if present) contains the correct repository URL in the Private Vulnerability Reporting link, not the template repository URL
+   - **Verify placeholder examples removed**: Check that `docs/development.md` and `CONTRIBUTING.md` no longer contain commented-out examples for languages other than `primary_language`
+   - **Verify pre-commit hooks passed**: Confirm that `pre-commit run --all-files` completed successfully with no errors
+5. Perform Chain-of-Verification:
    - **Initial Response:** Draft customization report.
    - **Self-Questioning:** Does the plan cover every checklist area? Are secrets/settings documented? Are assumptions noted?
-   - **Fact-Checking:** Validate references (`docs/template-guide.md`, workflows) for accuracy.
+   - **Fact-Checking:** Validate references (workflows, documentation) for accuracy.
    - **Inconsistency Resolution:** Fix mismatches before final synthesis.
 
 **Validation Gate:**
@@ -195,7 +251,7 @@ Write the final plan to `customization-plan.md` at the repository root so it can
 | --- | --- | --- |
 | Identity | ... | README.md, LICENSE |
 | Automation | ... | .github/workflows/ci.yml |
-| Documentation | ... | docs/development.md |
+| Documentation | ... | docs/development.md, .github/SECURITY.md |
 | Secrets & Settings | ... | docs/template-guide.md |
 | GitHub App Installations | ... | Renovate Bot verification |
 
@@ -209,17 +265,20 @@ Write the final plan to `customization-plan.md` at the repository root so it can
 | Branch protection (main) | ... | ... | ⚠️ | `gh api repos/{repo}/branches/main/protection -X PUT -F ...` |
 
 **Commands Executed / Planned**
-- `gh auth status`
-- `gh api -X PATCH repos/{owner}/{repo} -F allow_squash_merge=true -F allow_merge_commit=false`
-- `gh api repos/{owner}/{repo}/branches/{branch}/protection -X PUT --input branch-protection.json`
+- `gh auth status` - [EXECUTED / SKIPPED: reason]
+- `gh api repos/{owner}/{repo}` - [EXECUTED / SKIPPED: reason]
+- `gh api -X PATCH repos/{owner}/{repo} -F allow_squash_merge=true -F allow_merge_commit=false` - [EXECUTED / SKIPPED: reason]
+- `gh api repos/{owner}/{repo}/branches/{branch}/protection -X PUT --input branch-protection.json` - [EXECUTED / SKIPPED: reason]
 
-Document whether commands were executed or still pending user approval.
+**Important**: Commands should be **EXECUTED automatically** when `gh` CLI is available and permissions allow. Only mark as SKIPPED if CLI is unavailable, permissions are insufficient, or organization policies require manual review. Do not wait for user approval - execute the commands directly and document the results.
 
 ## GitHub App Installations
 
-| App | Installation Status | Verification Method | Action Required |
-| --- | --- | --- | --- |
-| Renovate Bot | ✅ Installed / ⚠️ Not Installed / ❓ Cannot Verify | `gh pr list --author "renovate[bot]"` or org installations check | Install from https://github.com/apps/renovate if not installed |
+| App | Installation Status | Verification Method | Verification Executed | Action Required |
+| --- | --- | --- | --- | --- |
+| Renovate Bot | ✅ Installed / ⚠️ Not Installed / ❓ Cannot Verify | `gh pr list --author "renovate[bot]"` or `gh api orgs/{org}/installations` | [YES / NO: reason] | Install from https://github.com/apps/renovate if not installed |
+
+**Important**: Verification commands should be **EXECUTED automatically** when `gh` CLI is available. Do not leave verification as a manual step - execute the commands and document the actual results.
 
 ---
 
@@ -233,10 +292,23 @@ Document whether commands were executed or still pending user approval.
 
 ## Validation Checklist
 
-- [ ] Placeholder search returns zero matches
+- [ ] Placeholder search returns zero matches (including `[your-repo-name]`, `liatrio/[your-repo-name]`, etc.)
 - [ ] README, CONTRIBUTING, docs updated with project context
+- [ ] `docs/development.md` updated: repository URLs replaced, template-specific sections removed, language-specific content filled in, placeholder examples for other languages removed
+- [ ] `CONTRIBUTING.md` updated: repository references replaced, language-specific examples updated, placeholder examples for other languages removed
+- [ ] `CHANGELOG.md` removed (if present) - semantic-release will generate a new one
+- [ ] `docs/repository-settings.md` removed or updated - template-specific settings guidance cleaned up
+- [ ] Pre-commit installed (if not already present)
+- [ ] Pre-commit hooks installed: `pre-commit install`
+- [ ] Pre-commit hooks run successfully: `pre-commit run --all-files` passes with no errors
 - [ ] Workflows reference correct project name and commands
 - [ ] `.github/chainguard/main-semantic-release.sts.yaml` subject updated
+- [ ] JSON files validated (no syntax errors, especially in `.github/renovate.json`)
+- [ ] YAML files validated (workflows, configs)
+- [ ] All documentation links verified (no broken links, especially if `docs/template-guide.md` was deleted)
+- [ ] `.github/SECURITY.md` URLs updated to current repository (if file exists) - Private Vulnerability Reporting link updated
+- [ ] `.github/ISSUE_TEMPLATE/config.yml` URLs updated to current repository
+- [ ] Template-specific sections removed from `docs/development.md` (e.g., "Enable 'Template repository'" checkbox)
 - [ ] Required secrets verified/config instructions documented
 - [ ] Branch protection + status checks documented and confirmed with user
 - [ ] GitHub settings delta reviewed, approved, and commands captured
@@ -260,15 +332,24 @@ Document whether commands were executed or still pending user approval.
 - **If automation updates require code execution**, include commands tested (e.g., `act`, `pre-commit run --all-files`) inside the plan.
 - **Surface blockers early**; pause implementation if secrets or permissions are missing.
 - **Favor reusable wording** so teams can copy the plan into onboarding issues.
+- **Execute GitHub settings and Renovate Bot verification automatically**: When `gh` CLI is available and permissions allow, execute the `gh api` commands to update repository settings and verify GitHub App installations automatically. Do not wait for user approval or leave these as manual steps - execute the commands directly and document the results. Only mark commands as SKIPPED if CLI is unavailable, permissions are insufficient, or organization policies require manual review.
 
 ---
 
 ## Quick Reference Commands
 
 - Search for placeholders: `rg -n "open-source-template|PROJECT_NAME|Liatrio Open Source Template"`
-- Run pre-commit locally: `pre-commit run --all-files`
+- **Install pre-commit** (if needed): `brew install pre-commit` (macOS) or `sudo apt install pre-commit` (Ubuntu/Debian) or `pip install pre-commit` (all platforms)
+- **Install pre-commit hooks**: `pre-commit install`
+- **Run pre-commit hooks**: `pre-commit run --all-files` (run until all hooks pass)
 - Validate workflows: `act pull_request --job ci`
 - Update Chainguard subject: edit `.github/chainguard/main-semantic-release.sts.yaml` → `subject_pattern: repo:<owner>/<repo>:ref:refs/heads/main`
+- **Validate JSON syntax**: `cat .github/renovate.json | jq .` or `python3 -m json.tool .github/renovate.json`
+- **Validate YAML syntax**: `yamllint .github/workflows/*.yml` or `python3 -c "import yaml; yaml.safe_load(open('.github/workflows/ci.yml'))"`
+- **Check for broken links**: `rg -n "docs/template-guide.md"` (should return nothing if file was deleted; searches entire repository recursively)
+- **Search for remaining placeholders**: `rg -n "\[your-repo-name\]|liatrio/\[your-repo-name\]|template repository"` (should return no matches; searches entire repository recursively)
+- **Verify template-specific content removed**: `rg -n "Enable.*Template repository|Template repository.*checkbox"` (should return nothing; searches entire repository recursively)
+- **Verify SECURITY.md URLs**: `rg -n "open-source-project-template.*security/advisories" .github/SECURITY.md` (should return nothing if file exists and URLs are updated)
 - Check GitHub settings: `gh api repos/{owner}/{repo}`
 - Update repo settings: `gh api -X PATCH repos/{owner}/{repo} -F allow_squash_merge=true -F allow_merge_commit=false -F delete_branch_on_merge=true`
 - Inspect branch protection: `gh api repos/{owner}/{repo}/branches/{branch}/protection`
@@ -288,3 +369,42 @@ Customization is considered **complete** when:
 5. Chain-of-Verification step affirms readiness.
 
 Apply these criteria before presenting the plan or opening onboarding PRs.
+
+---
+
+## Post-Customization: Run the Audit Prompt
+
+**After completing customization and getting the repository in a good state for the project, instruct the user to run the audit prompt to verify compliance and identify any remaining gaps.**
+
+**Instructions to provide to the user:**
+
+Once customization of the templated repo is complete and your project is in a good state:
+
+1. **Run the audit prompt** to verify your customization and check for any remaining compliance gaps:
+
+   ```bash
+   # Using Claude CLI (replace /path/to/my/repo with your actual repository path)
+   claude "Read prompts/repository-template-audit.md and follow its instructions. Use '/path/to/my/repo' as the target_repository and 'liatrio-labs/open-source-project-template' as the template_repository."
+
+   # Alternative: In your repository directory, you can use $(pwd)
+   # cd /path/to/my/repo
+   # claude "Read prompts/repository-template-audit.md and follow its instructions. Use '$(pwd)' as the target_repository and 'liatrio-labs/open-source-project-template' as the template_repository."
+   ```
+
+2. **What the audit checks:**
+   - Missing template files and configuration drift
+   - Compliance with template standards
+   - CI/CD workflow health and recent run status
+   - Repository settings alignment
+   - Documentation completeness
+   - GitHub App installations (e.g., Renovate Bot)
+
+3. **Review the audit report**: The audit generates an `audit-report.md` file with:
+   - Overall compliance score
+   - Detailed findings by category
+   - Prioritized remediation roadmap
+   - Specific remediation steps with commands
+
+4. **Address any findings**: Use the audit report to identify and fix any remaining gaps before considering customization complete.
+
+**Note:** The audit prompt is located at `prompts/repository-template-audit.md` in the template repository. For detailed audit methodology, see that file.

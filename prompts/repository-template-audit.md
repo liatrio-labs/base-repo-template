@@ -54,7 +54,17 @@ Use the `template_repository` argument (default: `liatrio-labs/open-source-proje
 
 **Release Config:** `.github/chainguard/main-semantic-release.sts.yaml`, `.releaserc.toml`
 
-**Documentation:** `README.md` (presence only, not content structure), `CONTRIBUTING.md`, `CODE_OF_CONDUCT.md`, `docs/development.md`, `docs/template-guide.md` (template-specific guidance - expected in template repositories, may be absent in template-derived repositories after customization), `docs/repository-settings.md` (if present)
+**Documentation:** `README.md` (presence only, not content structure), `CONTRIBUTING.md`, `CODE_OF_CONDUCT.md`, `docs/development.md`, `docs/template-guide.md`, `docs/repository-settings.md`, `CHANGELOG.md`
+
+**Expected File Presence by Repository Type:**
+
+- **In Template Repositories:**
+  - All documentation files should be present, including `docs/template-guide.md`, `docs/repository-settings.md`, and `CHANGELOG.md` (example changelog)
+
+- **In Template-Derived Repositories:**
+  - `docs/template-guide.md` — may be absent (often removed after customization is complete)
+  - `docs/repository-settings.md` — should be removed or updated (contains template-specific settings guidance; should be cleaned up during customization)
+  - `CHANGELOG.md` — should be removed (semantic-release will generate a new one based on project commits)
 
 ---
 
@@ -175,6 +185,11 @@ Reference `docs/repository-settings.md` in the template repository for expected 
    - Documentation files
 
 2. For each file: Record status (Present/Missing/Modified)
+   - **Note for template-derived repositories**:
+     - `CHANGELOG.md` being missing is expected (should be removed during customization as semantic-release generates a new one)
+     - `docs/repository-settings.md` being missing is expected (should be removed or updated during customization as it contains template-specific guidance)
+     - `docs/template-guide.md` being missing is expected (may be removed after customization is complete)
+   - **Note for template repositories**: All template files should be present
 
 3. Identify unexpected files in template locations or deprecated configurations
 
@@ -196,7 +211,7 @@ Reference `docs/repository-settings.md` in the template repository for expected 
 
 1. **Infrastructure Files:** Verify `.pre-commit-config.yaml` hooks (YAML, markdown, commitlint, whitespace), `.gitignore` patterns, `LICENSE` type/attribution
 
-2. **GitHub Configuration:** Verify `.github/CODEOWNERS` team assignment, `.github/SECURITY.md` template (if applicable), issue/PR template structure, `.github/renovate.json` presence and configuration
+2. **GitHub Configuration:** Verify `.github/CODEOWNERS` team assignment, `.github/SECURITY.md` template (if applicable - check that Private Vulnerability Reporting URL references the correct repository, not the template repository), issue/PR template structure, `.github/renovate.json` presence and configuration
 
 3. **Workflows:** Verify `ci.yml` structure/jobs/gates, `release.yml` semantic-release config
 
@@ -214,6 +229,14 @@ Reference `docs/repository-settings.md` in the template repository for expected 
    - **CODE_OF_CONDUCT.md**: Verify Contributor Covenant attribution remains intact, reporting instructions reference the correct maintainers/emails, and enforcement scope matches repository governance.
    - **CONTRIBUTING.md**: Verify workflow/commit standards, development workflow documentation, conventional commits guidance
    - **docs/development.md**: Verify completeness of local setup instructions, environment variables documentation, repository settings guidance
+   - **CHANGELOG.md**:
+     - Template repositories: File should be present (example changelog)
+     - Template-derived repositories: File should be absent (removed during customization; semantic-release generates a new one based on project commits)
+     - If present in template-derived repository, flag as Enhancement (should be removed)
+   - **docs/repository-settings.md**:
+     - Template repositories: File should be present (template-specific settings guidance)
+     - Template-derived repositories: File should be absent or updated (removed or updated during customization as it contains template-specific guidance)
+     - If present in template-derived repository with template-specific content, flag as Enhancement (should be removed or updated with project-specific settings)
 
 6. **Compliance Scoring:** Assign to each category: Fully Compliant | Partially Compliant | Non-Compliant | Not Applicable
 
@@ -245,7 +268,26 @@ Reference `docs/repository-settings.md` in the template repository for expected 
    - Or use `gh ruleset check --default` for newer rulesets
    - Extract: required reviews, status checks, conversation resolution, force push restrictions, deletion restrictions
 
-3. **Verify Renovate Bot GitHub App Installation** (if GitHub CLI available):
+3. **Check CI/CD Workflow History and Status** (if GitHub CLI available):
+   - **List recent workflow runs**: Use `gh run list --limit 20` to get recent workflow run history
+   - **Check workflow run status**: Analyze run results to identify:
+     - Recent successful runs (indicates workflows are functioning)
+     - Recent failed runs (indicates potential issues)
+     - Workflows that haven't run recently (may indicate misconfiguration or inactivity)
+     - Patterns of failures (consistent failures suggest configuration issues)
+   - **Get detailed run information**: For failed runs, use `gh run view <run-id>` to get detailed logs and failure reasons
+   - **Check workflow file presence**: Verify that workflow files (`.github/workflows/ci.yml`, `.github/workflows/release.yml`) exist and are being triggered
+   - **Document CI/CD health**:
+     - **Healthy**: Recent successful runs, workflows triggering correctly
+     - **Degraded**: Some failures but recent successes, or intermittent issues
+     - **Unhealthy**: Consistent failures, workflows not triggering, or no recent runs
+     - **Cannot Verify**: CLI unavailable or insufficient permissions
+   - **Flag issues**:
+     - **Critical Gap**: Workflows exist but consistently failing, or workflows not triggering at all
+     - **Important Gap**: Intermittent failures, workflows not running recently (may indicate misconfiguration)
+     - **Enhancement**: Workflows running but could be optimized (e.g., slow runs, unnecessary jobs)
+
+4. **Verify Renovate Bot GitHub App Installation** (if GitHub CLI available):
    - Check if Renovate Bot is installed by verifying Renovate activity:
      - Use `gh pr list --author "renovate[bot]" --limit 1` to check for Renovate-created PRs (indicates app is installed and active)
      - Or use `gh api repos/{owner}/{repo}/pulls?state=all&per_page=1` and filter for `renovate[bot]` user
@@ -253,31 +295,35 @@ Reference `docs/repository-settings.md` in the template repository for expected 
    - If `.github/renovate.json` exists but no Renovate activity found, flag as Important Gap (app may not be installed)
    - Document installation status: Installed (verified via activity) | Not Installed (no activity found) | Cannot Verify (CLI unavailable or no activity yet)
 
-4. **Compare Against Template Baseline:**
+5. **Compare Against Template Baseline:**
    - Reference Template Settings Reference section above
    - Compare general settings against expected values
    - Compare branch protection against recommended configuration
    - Note: Branch protection may not exist in template; recommend enabling for production repos
 
-5. **Document Settings Findings:**
+6. **Document Settings Findings:**
    - Record current vs. expected state for each setting
    - Flag missing branch protection as Important Gap (not Critical, as template may not have it)
+   - Flag CI/CD workflow issues per findings from step 3 above
    - Flag missing Renovate Bot installation as Important Gap if `.github/renovate.json` exists but app is not installed
    - Note settings that differ from template (may be valid customizations)
 
-6. **Compliance Scoring:** Assign to settings category: Fully Compliant | Partially Compliant | Non-Compliant | Not Applicable | Cannot Verify (no CLI access)
+7. **Compliance Scoring:** Assign to settings category: Fully Compliant | Partially Compliant | Non-Compliant | Not Applicable | Cannot Verify (no CLI access)
+   - **CI/CD Health Scoring:** Assign separate compliance score for CI/CD workflows based on run history and status
 
 **If GitHub CLI Unavailable:**
 
 - Note in report that settings audit was skipped
 - Provide manual verification steps using GitHub web UI
 - Reference `docs/repository-settings.md` for expected settings
+- For CI/CD workflow verification: Provide manual steps to check workflow runs via Actions tab in GitHub web UI
 - For Renovate Bot verification: Provide manual steps to check GitHub App installation via Settings → Integrations → GitHub Apps
 
 **CHECKLIST:**
 
 - Settings fetched (if CLI available) ✓
 - Branch protection checked ✓
+- CI/CD workflow history and status checked ✓
 - Renovate Bot installation verified ✓
 - Compared against baseline ✓
 - Findings documented ✓
@@ -298,8 +344,13 @@ Reference `docs/repository-settings.md` in the template repository for expected 
    - Remember:
      - Missing template-specific README sections in application or template-derived repositories is expected
      - Template repositories must retain `docs/template-guide.md`; template-derived repositories must retain the template features/content even if the file was removed
+     - Missing `CHANGELOG.md` in template-derived repositories is expected (should be removed during customization; semantic-release generates a new one)
+     - Missing `docs/repository-settings.md` in template-derived repositories is expected (should be removed or updated during customization as it contains template-specific guidance)
      - All repositories must maintain infrastructure and GitHub configuration files (`.pre-commit-config.yaml`, `.gitignore`, `LICENSE`, `.github/CODEOWNERS`, etc.)
    - **Verification**: Cross-reference each finding against repository type expectations before finalizing severity
+   - **Do NOT flag as gaps**: Missing `CHANGELOG.md` or `docs/repository-settings.md` in template-derived repositories (these are expected to be removed/cleaned up during customization)
+   - **Flag as Enhancement**: `CHANGELOG.md` or `docs/repository-settings.md` present in template-derived repositories with template-specific content (should be removed or updated)
+   - **Flag as Important Gap**: `.github/SECURITY.md` present but contains template repository URL in Private Vulnerability Reporting link (should reference the actual repository, not the template)
 
 2. **Generate Remediation Steps** for each gap:
    - File path, action (Create/Update/Remove), template reference
@@ -396,7 +447,7 @@ Reference `docs/repository-settings.md` in the template repository for expected 
 
 ## Detailed Findings
 
-### [File Category: Infrastructure Files | GitHub Configuration | Workflow Files | Release Configuration | Documentation | Repository Settings | GitHub App Installations]
+### [File Category: Infrastructure Files | GitHub Configuration | Workflow Files | Release Configuration | Documentation | Repository Settings | CI/CD Workflow Health | GitHub App Installations]
 
 #### [File Path or Setting Name]
 - **Status:** [Present | Missing | Modified | Enabled | Disabled]
@@ -413,7 +464,15 @@ Reference `docs/repository-settings.md` in the template repository for expected 
 
 [Repeat for each file/setting]
 
-**Note:** For Repository Settings category, include GitHub CLI commands for remediation (e.g., `gh api -X PATCH repos/{owner}/{repo} -F has_issues=true`). For GitHub App Installations category, include installation instructions (e.g., install Renovate Bot GitHub App from https://github.com/apps/renovate)
+**Note:**
+- For Repository Settings category, include GitHub CLI commands for remediation (e.g., `gh api -X PATCH repos/{owner}/{repo} -F has_issues=true`)
+- For CI/CD Workflow Health category, include:
+  - Recent run history summary (last 10-20 runs)
+  - Current status (healthy/degraded/unhealthy)
+  - Specific failure patterns or issues identified
+  - Remediation steps (e.g., fix workflow configuration, update dependencies, check secrets/permissions)
+  - GitHub CLI commands for investigation: `gh run list --limit 20`, `gh run view <run-id>`
+- For GitHub App Installations category, include installation instructions (e.g., install Renovate Bot GitHub App from https://github.com/apps/renovate)
 
 ---
 
@@ -462,7 +521,10 @@ Reference `docs/repository-settings.md` in the template repository for expected 
 - Focus on drift detection, removed/modified files, template updates not adopted
 - Verify customizations maintain template intent while serving application needs
 - Expect application-specific README documentation (installation, usage, API docs)
+- Expect `CHANGELOG.md` to be absent (removed during customization; semantic-release generates a new one)
+- Expect `docs/repository-settings.md` to be absent or updated (removed or updated during customization as it contains template-specific guidance)
 - Flag missing infrastructure files or non-compliant configurations as gaps
+- Do NOT flag missing `CHANGELOG.md` or `docs/repository-settings.md` as gaps (expected removal during customization)
 
 **For Independent Repositories:**
 
@@ -474,11 +536,11 @@ Reference `docs/repository-settings.md` in the template repository for expected 
 
 **Input:** `target_repository` (required): GitHub URL, `org/repo`, or absolute local path. `template_repository` (optional): Defaults to `liatrio-labs/open-source-project-template`.
 
-**GitHub CLI Requirements:** Repository settings audit requires:
+**GitHub CLI Requirements:** Repository settings audit and CI/CD workflow health check require:
 
 - GitHub CLI (`gh`) installed and authenticated (`gh auth login`)
-- Admin access to target repository
-- If unavailable, settings audit will be skipped and noted in report
+- Admin access to target repository (for settings) or read access (for workflow runs)
+- If unavailable, settings audit and CI/CD health check will be skipped and noted in report
 
 **Output Usage:** Manual remediation, PR creation, documentation tracking, or automated remediation scripts.
 

@@ -16,6 +16,33 @@ This template provides Liatrio teams with a proven foundation for new projects, 
 
 ## Quick Start
 
+Choose one of two paths to get started:
+
+### Option A: Automated Setup (Recommended)
+
+Use an AI assistant to automate the entire process—from repository creation to customization:
+
+```bash
+# Using Claude CLI
+claude "Read the prompt at https://raw.githubusercontent.com/liatrio-labs/open-source-project-template/main/prompts/repository-initializer.md and follow its instructions. Use 'my-new-project' as the project_name, 'A description of my project' as the project_description, '/path/to/projects' as the local_parent_folder, and 'Node.js' as the primary_language."
+```
+
+The initializer will:
+
+1. Create a new repository from this template
+2. Clone it to your specified local directory
+3. Automatically run the customization prompt to configure everything for your project
+
+**Required inputs:**
+
+- `project_name`: Name for your new repository
+- `project_description`: One-sentence description
+- `local_parent_folder`: Local directory path where the repo should be cloned
+- `primary_language` (optional): Your primary language/framework
+- `additional_details` (optional): Any extra customization requirements
+
+### Option B: Manual Setup
+
 ### 1. Create Repository from Template
 
 Click the **"Use this template"** button at the top of this repository, or use the GitHub CLI:
@@ -51,6 +78,29 @@ pre-commit install
 ### 4. Customize for Your Project
 
 Follow the [Template Customization Guide](docs/template-guide.md) to adapt the template for your specific project.
+
+### 5. Verify Customization with Audit
+
+After completing customization and getting your repository in a good state, run the audit prompt to verify compliance and identify any remaining gaps:
+
+```bash
+# Example Using Claude CLI (replace /path/to/my/repo with your actual repository path)
+claude "Read prompts/repository-template-audit.md and follow its instructions. Use '/path/to/my/repo' as the target_repository and 'liatrio-labs/open-source-project-template' as the template_repository."
+
+# Alternative: In your repository directory, you can use $(pwd)
+# cd /path/to/my/repo
+# claude "Read prompts/repository-template-audit.md and follow its instructions. Use '$(pwd)' as the target_repository and 'liatrio-labs/open-source-project-template' as the template_repository."
+```
+
+The audit will check for:
+
+- Missing template files and configuration drift
+- Compliance with template standards
+- CI/CD workflow health
+- Repository settings alignment
+- Documentation completeness
+
+See [`prompts/repository-template-audit.md`](prompts/repository-template-audit.md) for detailed audit methodology.
 
 ## Documentation
 

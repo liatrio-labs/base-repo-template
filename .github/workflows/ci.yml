@@ -2,17 +2,9 @@ name: CI - Tests and Linting
 
 on:
   # Avoid duplicate runs: run on PRs for branches, and on direct pushes to main
-  # Ignore changes to release-generated files
+  # Release commits include [skip ci] in commit message to prevent CI from running
   push:
     branches: ["main"]
-    paths-ignore:
-      - "CHANGELOG.md"
-      - "package-lock.json"
-      - "yarn.lock"
-      - "Cargo.lock"
-      - "go.sum"
-      - "poetry.lock"
-      - "Pipfile.lock"
   pull_request:
   workflow_dispatch:
 
@@ -22,12 +14,12 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v4
+        uses: actions/checkout@v5
 
       # TODO: Add language-specific setup here
       # Examples:
       # - Node.js: uses: actions/setup-node@v4
-      # - Python: uses: actions/setup-python@v5
+      # - Python: uses: actions/setup-python@v6
       # - Go: uses: actions/setup-go@v5
       # - Rust: uses: dtolnay/rust-toolchain@stable
       # - Java: uses: actions/setup-java@v4
@@ -58,9 +50,16 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v4
+        uses: actions/checkout@v5
 
       # TODO: Add language-specific setup here (same as test job)
+      # Examples:
+      # - Node.js: uses: actions/setup-node@v4
+      # - Python: uses: actions/setup-python@v6
+      # - Go: uses: actions/setup-go@v5
+      # - Rust: uses: dtolnay/rust-toolchain@stable
+      # - Java: uses: actions/setup-java@v4
+      # Browse GitHub Actions Marketplace: https://github.com/marketplace?type=actions
 
       - name: Placeholder - Install dependencies
         run: |
@@ -77,8 +76,13 @@ jobs:
           echo "  - Rust: cargo clippy"
           echo "  - Java: mvn checkstyle:check"
 
+      - name: Set up Python
+        uses: actions/setup-python@v6
+        with:
+          python-version: "3.12"
+
       - name: Run pre-commit hooks
-        run: |
-          echo "Optionally run pre-commit hooks in CI:"
-          echo "  - Install pre-commit: pip install pre-commit"
-          echo "  - Run: pre-commit run --all-files"
+        uses: pre-commit/action@v3.0.1
+        with:
+          # Run all hooks against all files (not just changed files)
+          extra_args: --all-files

@@ -6,8 +6,9 @@
 tag_format = "v{version}"
 # Allow 0.x.x versions (required for pre-1.0.0 releases)
 allow_zero_version = true
-# Don't update version in any files since this is a template repo
-# Projects using this template should manage their own versioning
+# Version variables: files to update with version numbers during release
+# For projects using this template, add language-specific version files here
+# Example: ["package.json", "setup.py", "Cargo.toml"]
 version_variables = []
 # Assets to include in the release commit
 assets = []

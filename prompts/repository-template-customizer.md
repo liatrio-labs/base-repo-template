@@ -380,11 +380,10 @@ Apply these criteria before presenting the plan or opening onboarding PRs.
 
 Once customization of the templated repo is complete and your project is in a good state:
 
-1. **Run the audit prompt** to verify your customization and check for any remaining compliance gaps:
+1. **Run the audit prompt** with your AI assistant to verify your customization and check for any remaining compliance gaps:
 
-   ```bash
-   # Using Claude CLI (replace /path/to/my/repo with your actual repository path)
-   claude "Use the \`gh\` CLI to read the prompt at prompts/repository-template-audit.md from the repository liatrio-labs/open-source-project-template and follow its instructions. Use '/path/to/my/repo' as the target_repository and 'liatrio-labs/open-source-project-template' as the template_repository."
+   ```text
+   Run `gh api repos/liatrio-labs/open-source-project-template/contents/prompts/repository-template-audit.md -q '.content' | base64 -d` to read the prompt then follow its instructions. Use the current directory as the target_repository and 'liatrio-labs/open-source-project-template' as the template_repository.
    ```
 
 2. **What the audit checks:**

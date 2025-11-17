@@ -20,11 +20,10 @@ Choose one of two paths to get started:
 
 ### Option A: Automated Setup (Recommended)
 
-Use an AI assistant to automate the entire process—from repository creation to customization:
+Run this command in your AI assistant to automate the entire process, from repository creation to customization:
 
-```bash
-# Using Claude CLI
-claude "Use the \`gh\` CLI to read the prompt at prompts/repository-initializer.md from the repository liatrio-labs/open-source-project-template and follow its instructions. Use 'my-new-project' as the project_name, 'A description of my project' as the project_description, '/path/to/projects' as the local_parent_folder, and 'Node.js' as the primary_language."
+```text
+Run `gh api repos/liatrio-labs/open-source-project-template/contents/prompts/repository-initializer.md -q '.content' | base64 -d` to read the prompt then follow its instructions. Use 'my-new-project' as the project_name, 'A description of my project' as the project_description, '/path/to/projects' as the local_parent_folder, and 'Node.js' as the primary_language.
 ```
 
 The initializer will:
@@ -81,15 +80,10 @@ Follow the [Template Customization Guide](docs/template-guide.md) to adapt the t
 
 ### 5. Verify Customization with Audit
 
-After completing customization and getting your repository in a good state, run the audit prompt to verify compliance and identify any remaining gaps:
+After completing customization and getting your repository in a good state, have your AI assistant run the audit prompt to verify compliance and identify any remaining gaps:
 
-```bash
-# Example Using Claude CLI (replace /path/to/my/repo with your actual repository path)
-claude "Read prompts/repository-template-audit.md and follow its instructions. Use '/path/to/my/repo' as the target_repository and 'liatrio-labs/open-source-project-template' as the template_repository."
-
-# Alternative: In your repository directory, you can use $(pwd)
-# cd /path/to/my/repo
-# claude "Read prompts/repository-template-audit.md and follow its instructions. Use '$(pwd)' as the target_repository and 'liatrio-labs/open-source-project-template' as the template_repository."
+```text
+Run `gh api repos/liatrio-labs/open-source-project-template/contents/prompts/repository-template-audit.md -q '.content' | base64 -d` to read the prompt then follow its instructions. Use the current directory as the target_repository and 'liatrio-labs/open-source-project-template' as the template_repository."
 ```
 
 The audit will check for:

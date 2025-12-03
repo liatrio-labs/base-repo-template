@@ -1,56 +1,10 @@
 # Template Customization Guide
 
-This guide provides detailed instructions for customizing the Liatrio Open Source Template for your project.
+This guide provides detailed instructions for customizing this base template for your project.
 
 ## Customization Checklist
 
-After creating your repository from this template, choose one of the following customization paths:
-
-### Path 1: AI-Guided Customization (Recommended)
-
-Use an AI assistant to guide you through the customization process:
-
-1. **Use the customization prompt**: Provide the AI with the prompt at [`prompts/repository-template-customizer.md`](../prompts/repository-template-customizer.md)
-2. **Provide required arguments**:
-   - `target_repository`: Your repository (GitHub URL, `org/repo`, or local path)
-   - `project_name`: Your project name
-   - `project_description`: One-sentence project description
-   - `primary_language`: Your primary language/framework (optional)
-   - `customization_goals`: Optional priorities (optional)
-3. **Follow the AI's guidance**: The AI will guide you through each customization step, validate changes, and ensure completeness
-4. **Review the customization plan**: The AI generates a `customization-plan.md` file documenting all changes made and listing any remaining customization steps.
-
-**Example usage:**
-
-```text
-Run `gh api repos/liatrio-labs/base-repo-template/contents/prompts/repository-template-customizer.md -q '.content' | base64 -d` to read the prompt then follow its instructions. Use the current directory as the target_repository, 'My Project Name' as the project_name, 'A description of my project' as the project_description, and 'Node.js' as the primary_language. Incorporate these additional goals: <your custom goal 1>, <your custom goal 2>
-```
-
-The AI will handle the entire customization process, including:
-
-- Updating repository identity and metadata
-- Customizing CI/CD workflows for your language
-- Updating documentation files
-- Removing template-specific content (including `CHANGELOG.md` and cleaning up `docs/repository-settings.md`)
-- Installing and validating pre-commit hooks
-- Auditing and updating GitHub settings
-- Verifying GitHub App installations
-
-Review the prompt to get more detail about how it works and the actions it will instruct the AI to perform.
-
-**After Customization - Run the Audit:**
-
-Once you've completed customization and your repository is in a good state for your project, have your AI assistant run the audit prompt to verify compliance and identify any remaining gaps:
-
-```text
-Run `gh api repos/liatrio-labs/base-repo-template/contents/prompts/repository-template-audit.md -q '.content' | base64 -d` to read the prompt then follow its instructions. Use the current directory as the target_repository and 'liatrio-labs/base-repo-template' as the template_repository.
-```
-
-The audit will check for missing template files, configuration drift, CI/CD workflow health, repository settings alignment, and documentation completeness. See [`prompts/repository-template-audit.md`](../prompts/repository-template-audit.md) for detailed audit methodology.
-
-### Path 2: Manual Customization
-
-Follow the checklist below to customize your repository manually:
+After creating your repository from this template, follow the checklist below:
 
 ### Repository Configuration
 
@@ -58,7 +12,6 @@ Follow the checklist below to customize your repository manually:
 - [ ] Update `README.md` with your project name, description, and badges
 - [ ] Update `.github/chainguard/main-semantic-release.sts.yaml` with your repository path
 - [ ] Review and customize `.gitignore` for your language/framework
-- [ ] (Optional) Change license - see [Changing the License](#changing-the-license)
 
 ### CI/CD Workflows
 
@@ -78,18 +31,17 @@ Follow the checklist below to customize your repository manually:
 
 - [ ] Update `README.md` with project-specific information
 - [ ] Customize `CONTRIBUTING.md` with project-specific contribution guidelines
-- [ ] Update `CODE_OF_CONDUCT.md` with project-specific reporting contacts and enforcement owners
 - [ ] Review and update issue templates in `.github/ISSUE_TEMPLATE/`
 - [ ] Customize pull request template in `.github/pull_request_template.md`
 - [ ] Update `docs/development.md` with project-specific setup instructions
-- [ ] Remove `CHANGELOG.md` (if present) - semantic-release will generate a new one based on your commits
+- [ ] Update `docs/ARCHITECTURE.md` with your system architecture
 - [ ] Remove or update `docs/repository-settings.md` - this file contains template-specific repository settings guidance and should be cleaned up after customization
 
 ### Secrets and Authentication
 
-The following secrets are configured at the Liatrio organization level:
+The following may need to be configured at your organization level:
 
-- [ ] Verify Octo STS is configured (for semantic-release workflow)
+- [ ] Verify Octo STS is configured (for semantic-release workflow) - if using Chainguard
 - [ ] Verify Renovate Bot GitHub App is installed (if `.github/renovate.json` exists)
 
 See [Required GitHub Secrets](#required-github-secrets) for details.
@@ -105,13 +57,12 @@ See [docs/development.md](development.md) for recommended repository settings.
 
 ### Post-Customization Verification
 
-After completing manual customization and getting your repository in a good state, have your AI assistant run the audit prompt to verify compliance:
+After completing customization:
 
-```text
-Run `gh api repos/liatrio-labs/base-repo-template/contents/prompts/repository-template-audit.md -q '.content' | base64 -d` to read the prompt then follow its instructions. Use the current directory as the target_repository and 'liatrio-labs/base-repo-template' as the template_repository.
-```
-
-The audit will identify any remaining gaps, configuration drift, or compliance issues. See [`prompts/repository-template-audit.md`](../prompts/repository-template-audit.md) for detailed audit methodology.
+1. Run pre-commit hooks to verify all files pass: `pre-commit run --all-files`
+2. Verify CI workflows pass on your first commit
+3. Review branch protection settings are correctly configured
+4. Test the semantic release workflow by creating a conventional commit
 
 ## Features
 
@@ -186,66 +137,41 @@ The template includes a conservative Renovate configuration at `.github/renovate
 
 - Extends `config:recommended` with conservative overrides
 - Requires manual review for all updates (no auto-merge)
-- Routes all PRs to `@liatrio-labs/liatrio-labs-maintainers` for review
 - Groups updates by type (major vs. minor/patch)
 - Limits PR creation rate to prevent overwhelming maintainers
 
-For detailed configuration research and rationale, see [docs/specs/02-spec-repository-infrastructure-improvements/RENOVATE-RESEARCH.md](specs/02-spec-repository-infrastructure-improvements/RENOVATE-RESEARCH.md).
+**Note:** Update the `reviewers` and `assignees` fields in `.github/renovate.json` with your team's GitHub handles.
 
 **Note:** Renovate uses a GitHub App for authentication and does not require any secrets to be configured.
 
-### Template Audit Automation
+### Verification Checklist
 
-**Repository Auditing** helps keep downstream repositories in sync with template updates:
+After customization, verify the following:
 
-- Comprehensive compliance checking against template standards
-- Identifies missing files, configuration drift, and compliance gaps
-
-**Manual Audit (AI Prompt):**
-
-For audits, use the AI prompt directly:
-
-1. Use the prompt at [`prompts/repository-template-audit.md`](../prompts/repository-template-audit.md)
-2. Provide `target_repository` argument (required)
-3. Optionally provide `template_repository` argument (defaults to template)
-4. The prompt performs comprehensive file presence and content comparison audits
-
-**Audit Scope:**
-
-The audit checks:
-
-- Infrastructure files (`.pre-commit-config.yaml`, `.gitignore`, `LICENSE`)
-- GitHub configuration (`.github/CODEOWNERS`, `.github/SECURITY.md`, issue/PR templates)
-- Workflow files (CI, release)
-- Release configuration (Chainguard STS, semantic-release)
-- Documentation (README, CONTRIBUTING, development docs)
-
-For detailed audit methodology, see [`prompts/repository-template-audit.md`](../prompts/repository-template-audit.md).
+- [ ] All placeholder values (`{OWNER}`, `{REPO}`, `{ORGANIZATION}`, `{TEAM_NAME}`) are replaced
+- [ ] Pre-commit hooks pass: `pre-commit run --all-files`
+- [ ] CI workflow runs successfully
+- [ ] Branch protection is configured
+- [ ] CODEOWNERS file updated with your team
+- [ ] Renovate Bot is installed (if using dependency management)
 
 ## Required GitHub Secrets
 
-The following secrets must be configured at the **organization level** (already set up for Liatrio repositories):
+The following may need to be configured depending on your setup:
 
-### Octo STS (Chainguard)
+### Octo STS (Chainguard) - Optional
 
-Required for semantic-release workflow authentication (`.github/workflows/release.yml`).
+If using Chainguard Octo STS for semantic-release workflow authentication:
 
-- Configured at the organization level via Chainguard Octo STS
+- Configure at the organization level via Chainguard Octo STS
 - Provides short-lived tokens for GitHub Actions workflows
 - Configuration file: `.github/chainguard/main-semantic-release.sts.yaml`
 - **Important:** Update the `subject_pattern` in this file to match your repository
 
-## Changing the License
+### Alternative: GitHub Token
 
-This template uses the **Apache License, Version 2.0** by default. To change the license:
+If not using Octo STS, you can use a GitHub Personal Access Token or GitHub App token:
 
-1. Delete the existing `LICENSE` file
-2. Add your preferred license file (MIT, BSD, GPL, etc.)
-3. Update the license badge in your `README.md`
-4. Update copyright attributions in source files if applicable
-
-Common license resources:
-
-- [Choose a License](https://choosealicense.com/)
-- [GitHub License Templates](https://github.com/github/choosealicense.com/tree/gh-pages/_licenses)
-- [SPDX License List](https://spdx.org/licenses/)
+- Create a PAT with `contents: write` permissions
+- Add as a repository secret named `GH_TOKEN`
+- Update `.github/workflows/release.yml` to use the secret

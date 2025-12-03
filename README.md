@@ -1,57 +1,32 @@
-# Liatrio Open Source Template
+# Base Repository Template
 
-A battle-tested GitHub template repository with opinionated developer experience, quality gates, and CI/CD automation ready for customization.
+A GitHub template repository with opinionated developer experience, quality gates, and CI/CD automation ready for customization.
 
-[![CI Status](https://github.com/liatrio-labs/base-repo-template/actions/workflows/ci.yml/badge.svg)](https://github.com/liatrio-labs/base-repo-template/actions/workflows/ci.yml)
-[![License](https://img.shields.io/badge/License-Apache_2.0-blue.svg)](https://github.com/liatrio-labs/base-repo-template/blob/main/LICENSE)
+<!-- TODO: Update badge with your repository URL -->
+<!-- [![CI Status](https://github.com/{OWNER}/{REPO}/actions/workflows/ci.yml/badge.svg)](https://github.com/{OWNER}/{REPO}/actions/workflows/ci.yml) -->
 
-## Why Use This Template?
+## Features
 
-This template provides Liatrio teams with a proven foundation for new projects, including:
+This template provides a proven foundation for new projects, including:
 
 - **Pre-configured CI/CD**: GitHub Actions workflows for testing, linting, and semantic versioning
 - **Quality gates**: Pre-commit hooks for YAML validation, markdown linting, and conventional commits
 - **Automated releases**: Semantic versioning with changelog generation
 - **Documentation standards**: Contribution guidelines, issue templates, and PR templates
+- **AI-ready development**: AGENTS.md and architecture documentation for AI assistants
 
 ## Quick Start
-
-Choose one of two paths to get started:
-
-### Option A: Automated Setup (Recommended)
-
-Run this command in your AI assistant to automate the entire process, from repository creation to customization:
-
-```text
-Run `gh api repos/liatrio-labs/base-repo-template/contents/prompts/repository-initializer.md -q '.content' | base64 -d` to read the prompt then follow its instructions. Use 'my-new-project' as the project_name, 'A description of my project' as the project_description, '/path/to/projects' as the local_parent_folder, and 'Node.js' as the primary_language.
-```
-
-The initializer will:
-
-1. Create a new repository from this template
-2. Clone it to your specified local directory
-3. Automatically run the customization prompt to configure everything for your project
-
-**Required inputs:**
-
-- `project_name`: Name for your new repository
-- `project_description`: One-sentence description
-- `local_parent_folder`: Local directory path where the repo should be cloned
-- `primary_language` (optional): Your primary language/framework
-- `additional_details` (optional): Any extra customization requirements
-
-### Option B: Manual Setup
 
 ### 1. Create Repository from Template
 
 Click the **"Use this template"** button at the top of this repository, or use the GitHub CLI:
 
 ```bash
-gh repo create my-new-project --template liatrio-labs/base-repo-template --public
+gh repo create my-new-project --template {OWNER}/{REPO} --private
 cd my-new-project
 ```
 
-### 2. Install Dependencies
+### 2. Install Pre-commit
 
 Install pre-commit for local quality gates:
 
@@ -76,52 +51,57 @@ pre-commit install
 
 ### 4. Customize for Your Project
 
-Follow the [Template Customization Guide](docs/template-guide.md) to adapt the template for your specific project.
+Follow the [Template Customization Guide](docs/template-guide.md) to adapt the template for your specific project:
 
-### 5. Verify Customization with Audit
+- Update repository identity (README, badges, descriptions)
+- Customize CI/CD workflows for your language/framework
+- Add language-specific pre-commit hooks
+- Configure branch protection and repository settings
 
-After completing customization and getting your repository in a good state, have your AI assistant run the audit prompt to verify compliance and identify any remaining gaps:
+## What's Included
 
-```text
-Run `gh api repos/liatrio-labs/base-repo-template/contents/prompts/repository-template-audit.md -q '.content' | base64 -d` to read the prompt then follow its instructions. Use the current directory as the target_repository and 'liatrio-labs/base-repo-template' as the template_repository."
-```
+### Pre-commit Hooks (Tech-Agnostic)
 
-The audit will check for:
+- YAML and TOML validation
+- Markdown linting
+- Trailing whitespace and EOF fixes
+- Conventional commits enforcement
+- Secret scanning (Gitleaks)
 
-- Missing template files and configuration drift
-- Compliance with template standards
-- CI/CD workflow health
-- Repository settings alignment
-- Documentation completeness
+### CI/CD Workflows
 
-See [`prompts/repository-template-audit.md`](prompts/repository-template-audit.md) for detailed audit methodology.
+- `ci.yml`: Placeholder for tests and linting (customize per language)
+- `release.yml`: Semantic release automation
+
+### Documentation
+
+- Contributing guidelines with conventional commits
+- Development setup guide
+- Architecture documentation template
+- Repository settings documentation
+
+### Scripts
+
+- `apply-repo-settings.sh`: Automate GitHub repository configuration
+- `ruleset-config.json`: Branch protection configuration
 
 ## Documentation
 
-- [Template Customization Guide](docs/template-guide.md) - Complete customization checklist and feature documentation
-- [Contributing Guidelines](CONTRIBUTING.md) - Development workflow, conventional commits, and pre-commit hooks
-- [Code of Conduct](CODE_OF_CONDUCT.md) - Community expectations and reporting guidance
-- [Development Setup](docs/development.md) - Local setup, environment variables, and repository settings
+- [Template Customization Guide](docs/template-guide.md) - Complete customization checklist
+- [Contributing Guidelines](CONTRIBUTING.md) - Development workflow and conventions
+- [Development Setup](docs/development.md) - Local setup and repository settings
+- [Architecture](docs/ARCHITECTURE.md) - System architecture documentation
+- [AI Agent Guidelines](AGENTS.md) - Context for AI assistants
 
-## Support
+## Customization Checklist
 
-For questions or issues with this template:
+After creating a repository from this template:
 
-- Open an issue in this repository
-- Contact the Liatrio DevOps team
-
-## License
-
-Copyright 2025 Liatrio
-
-Licensed under the Apache License, Version 2.0 (the "License");
-you may not use this file except in compliance with the License.
-You may obtain a copy of the License at
-
-<http://www.apache.org/licenses/LICENSE-2.0>
-
-Unless required by applicable law or agreed to in writing, software
-distributed under the License is distributed on an "AS IS" BASIS,
-WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-See the License for the specific language governing permissions and
-limitations under the License.
+- [ ] Update this README with your project information
+- [ ] Update CI badges with your repository URLs
+- [ ] Customize `.github/workflows/ci.yml` for your language
+- [ ] Add language-specific pre-commit hooks
+- [ ] Update `.github/chainguard/main-semantic-release.sts.yaml` subject pattern
+- [ ] Update `.github/CODEOWNERS` with your team
+- [ ] Configure branch protection rules
+- [ ] Remove this checklist section

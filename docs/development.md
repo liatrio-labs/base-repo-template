@@ -48,8 +48,9 @@ This document provides detailed guidance for local development setup, testing, a
 1. **Clone the repository**
 
    ```bash
-   git clone https://github.com/liatrio/[your-repo-name].git
-   cd [your-repo-name]
+   # TODO: Update with your repository URL
+   git clone https://github.com/{OWNER}/{REPO}.git
+   cd {REPO}
    ```
 
 2. **Install dependencies**
@@ -247,17 +248,14 @@ gh api -X PATCH repos/{owner}/{repo} \
 
 ### Manual Configuration Steps
 
-1. **Enable "Template repository"** (if this is a template)
-   - Settings → General → Template repository checkbox
-
-2. **Configure merge button**
+1. **Configure merge button**
    - Settings → General → Pull Requests
    - ✓ Allow squash merging (recommended for clean history)
    - ☐ Allow merge commits (disabled - enforces clean, linear history via squash merges only)
    - ☐ Allow rebase merging (disabled - enforces clean, linear history via squash merges only)
    - ✓ Automatically delete head branches
 
-3. **Set up CODEOWNERS** (optional)
+2. **Set up CODEOWNERS** (optional)
    - Create `.github/CODEOWNERS` file
    - Define code ownership patterns
 

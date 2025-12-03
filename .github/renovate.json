@@ -26,6 +26,6 @@
       "labels": ["dependencies"]
     }
   ],
-  "reviewers": ["@liatrio-labs/liatrio-labs-maintainers"],
-  "assignees": ["@liatrio-labs/liatrio-labs-maintainers"]
+  "reviewers": [],
+  "assignees": []
 }

@@ -17,8 +17,8 @@
 #   - jq installed (for JSON parsing in verification)
 #
 # Example:
-#   ./scripts/apply-repo-settings.sh liatrio/my-new-project
-#   ./scripts/apply-repo-settings.sh liatrio/my-new-project --dry-run
+#   ./scripts/apply-repo-settings.sh my-org/my-project
+#   ./scripts/apply-repo-settings.sh my-org/my-project --dry-run
 #
 
 set -euo pipefail

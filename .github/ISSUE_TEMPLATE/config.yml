@@ -1,8 +1,9 @@
 blank_issues_enabled: false
 contact_links:
+  # TODO: Update URLs with your repository
   - name: Documentation
-    url: https://github.com/liatrio-labs/base-repo-template#readme
+    url: https://github.com/{OWNER}/{REPO}#readme
     about: Refer to the README and documentation for setup and usage guidance.
   - name: Development Guide
-    url: https://github.com/liatrio-labs/base-repo-template/blob/main/docs/development.md
+    url: https://github.com/{OWNER}/{REPO}/blob/main/docs/development.md
     about: Local development setup, testing, and repository settings.

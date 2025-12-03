@@ -1,6 +1,6 @@
 # Repository Settings
 
-This document describes recommended repository settings captured from the `spec-driven-workflow` repository, along with automation commands and manual configuration steps.
+This document describes recommended repository settings for projects using this template, along with automation commands and manual configuration steps.
 
 ## Table of Contents
 
@@ -11,7 +11,7 @@ This document describes recommended repository settings captured from the `spec-
 
 ## Captured Settings
 
-The following settings were captured from `liatrio-labs/spec-driven-workflow` repository:
+The following are recommended settings for repositories using this template:
 
 ### General Settings
 
@@ -39,7 +39,7 @@ The following settings were captured from `liatrio-labs/spec-driven-workflow` re
 
 ### Branch Protection
 
-The source repository (`spec-driven-workflow`) does not have branch protection enabled on `main`. However, for production projects, we **strongly recommend** enabling branch protection with the settings described in the [Branch Protection Rules](#branch-protection-rules) section below.
+For production projects, we **strongly recommend** enabling branch protection with the settings described in the [Branch Protection Rules](#branch-protection-rules) section below.
 
 ## Automated Configuration
 
@@ -52,7 +52,7 @@ The source repository (`spec-driven-workflow`) does not have branch protection e
 
 ```bash
 # Replace {owner} and {repo} with your repository details
-# Example: owner=liatrio, repo=my-new-project
+# Example: owner=my-org, repo=my-project
 
 # Apply general repository settings
 gh api -X PATCH repos/{owner}/{repo} \
@@ -140,9 +140,9 @@ Under "Pull Requests" section:
 - ☐ **Allow rebase merging**: Uncheck (enforces clean, linear history via squash merges only)
 - ✓ **Automatically delete head branches**: Check (recommended)
 
-#### Template Repository
+#### Template Repository (Optional)
 
-If this repository is intended as a template:
+If creating a template repository for others to use:
 
 - ✓ **Template repository**: Check this box to allow users to create repositories from this template
 
@@ -248,9 +248,9 @@ Recommended settings:
 
 Navigate to **Settings** → **Secrets and variables** → **Actions**
 
-Required organization-level secrets (configured by Liatrio administrators):
+Organization-level secrets (if applicable):
 
-- Octo STS configuration - For semantic-release workflow
+- Octo STS configuration - For semantic-release workflow (if using Chainguard)
 
 Repository-specific secrets (if needed):
 
@@ -398,7 +398,7 @@ Recommended topics for this template repository:
 - `github-actions` - Shows GitHub Actions workflow integration
 - `github-template` - Marks this as a template repository
 - `developer-tools` - Categorizes developer productivity tools
-- `liatrio` - Organization-specific tag for Liatrio repositories
+- `{organization}` - Add your organization-specific tag
 - `pre-commit` - Indicates pre-commit hook integration
 - `semantic-release` - Shows semantic versioning automation
 
@@ -429,8 +429,9 @@ gh api -X PATCH repos/{owner}/{repo} \
 **Example:**
 
 ```bash
-gh api -X PATCH repos/liatrio-labs/base-repo-template \
-  -F description="A battle-tested GitHub template repository with opinionated developer experience, quality gates, and CI/CD automation ready for customization"
+# Example:
+gh api -X PATCH repos/{owner}/{repo} \
+  -F description="Your project description here"
 ```
 
 #### Setting Repository Topics
@@ -451,15 +452,16 @@ gh api -X PATCH repos/liatrio-labs/base-repo-template \
 
 gh api -X PUT repos/{owner}/{repo}/topics \
   -H "Accept: application/vnd.github.mercy-preview+json" \
-  -f names="automation,ci-cd,devops,github-actions,github-template,developer-tools,liatrio,pre-commit,semantic-release"
+  -f names="automation,ci-cd,devops,github-actions,github-template,developer-tools,pre-commit,semantic-release"
 ```
 
 **Example:**
 
 ```bash
-gh api -X PUT repos/liatrio-labs/base-repo-template/topics \
+# Example:
+gh api -X PUT repos/{owner}/{repo}/topics \
   -H "Accept: application/vnd.github.mercy-preview+json" \
-  -f names="automation,ci-cd,devops,github-actions,github-template,developer-tools,liatrio,pre-commit,semantic-release"
+  -f names="automation,ci-cd,devops,github-actions,github-template,developer-tools,pre-commit,semantic-release"
 ```
 
 **Verification:**

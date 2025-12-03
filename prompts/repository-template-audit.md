@@ -10,9 +10,9 @@ arguments:
     description: "Target repository to audit (format: GitHub URL, org/repo, or absolute local path)"
     required: true
   - name: template_repository
-    description: "Template repository to use as baseline (format: org/repo or full GitHub URL). Defaults to 'liatrio-labs/open-source-project-template' if not provided."
+    description: "Template repository to use as baseline (format: org/repo or full GitHub URL). Defaults to 'liatrio-labs/base-repo-template' if not provided."
     required: false
-    default: "liatrio-labs/open-source-project-template"
+    default: "liatrio-labs/base-repo-template"
 meta:
   category: repository-management
   allowed-tools: Glob, Grep, LS, Read, Edit, MultiEdit, Write, WebFetch, WebSearch
@@ -44,7 +44,7 @@ You are a **Senior DevOps Engineer and Repository Standards Specialist** with ex
 
 ## Template File Reference
 
-Use the `template_repository` argument (default: `liatrio-labs/open-source-project-template`) to identify these core template components:
+Use the `template_repository` argument (default: `liatrio-labs/base-repo-template`) to identify these core template components:
 
 **Infrastructure:** `.pre-commit-config.yaml`, `.gitignore`, `LICENSE`, `.markdownlint.yaml` (if present)
 
@@ -550,7 +550,7 @@ Reference `docs/repository-settings.md` in the template repository for expected 
 - Expect application-specific README content appropriate to the project
 - Reference `docs/template-guide.md` in the template repository for guidance on adopting template features
 
-**Input:** `target_repository` (required): GitHub URL, `org/repo`, or absolute local path. `template_repository` (optional): Defaults to `liatrio-labs/open-source-project-template`.
+**Input:** `target_repository` (required): GitHub URL, `org/repo`, or absolute local path. `template_repository` (optional): Defaults to `liatrio-labs/base-repo-template`.
 
 **GitHub CLI Requirements:** Repository settings audit and CI/CD workflow health check require:
 

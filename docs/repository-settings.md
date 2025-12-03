@@ -429,7 +429,7 @@ gh api -X PATCH repos/{owner}/{repo} \
 **Example:**
 
 ```bash
-gh api -X PATCH repos/liatrio-labs/open-source-project-template \
+gh api -X PATCH repos/liatrio-labs/base-repo-template \
   -F description="A battle-tested GitHub template repository with opinionated developer experience, quality gates, and CI/CD automation ready for customization"
 ```
 
@@ -457,7 +457,7 @@ gh api -X PUT repos/{owner}/{repo}/topics \
 **Example:**
 
 ```bash
-gh api -X PUT repos/liatrio-labs/open-source-project-template/topics \
+gh api -X PUT repos/liatrio-labs/base-repo-template/topics \
   -H "Accept: application/vnd.github.mercy-preview+json" \
   -f names="automation,ci-cd,devops,github-actions,github-template,developer-tools,liatrio,pre-commit,semantic-release"
 ```

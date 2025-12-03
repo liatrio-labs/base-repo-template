@@ -2,8 +2,8 @@
 
 A battle-tested GitHub template repository with opinionated developer experience, quality gates, and CI/CD automation ready for customization.
 
-[![CI Status](https://github.com/liatrio-labs/open-source-project-template/actions/workflows/ci.yml/badge.svg)](https://github.com/liatrio-labs/open-source-project-template/actions/workflows/ci.yml)
-[![License](https://img.shields.io/badge/License-Apache_2.0-blue.svg)](https://github.com/liatrio-labs/open-source-project-template/blob/main/LICENSE)
+[![CI Status](https://github.com/liatrio-labs/base-repo-template/actions/workflows/ci.yml/badge.svg)](https://github.com/liatrio-labs/base-repo-template/actions/workflows/ci.yml)
+[![License](https://img.shields.io/badge/License-Apache_2.0-blue.svg)](https://github.com/liatrio-labs/base-repo-template/blob/main/LICENSE)
 
 ## Why Use This Template?
 
@@ -23,7 +23,7 @@ Choose one of two paths to get started:
 Run this command in your AI assistant to automate the entire process, from repository creation to customization:
 
 ```text
-Run `gh api repos/liatrio-labs/open-source-project-template/contents/prompts/repository-initializer.md -q '.content' | base64 -d` to read the prompt then follow its instructions. Use 'my-new-project' as the project_name, 'A description of my project' as the project_description, '/path/to/projects' as the local_parent_folder, and 'Node.js' as the primary_language.
+Run `gh api repos/liatrio-labs/base-repo-template/contents/prompts/repository-initializer.md -q '.content' | base64 -d` to read the prompt then follow its instructions. Use 'my-new-project' as the project_name, 'A description of my project' as the project_description, '/path/to/projects' as the local_parent_folder, and 'Node.js' as the primary_language.
 ```
 
 The initializer will:
@@ -47,7 +47,7 @@ The initializer will:
 Click the **"Use this template"** button at the top of this repository, or use the GitHub CLI:
 
 ```bash
-gh repo create my-new-project --template liatrio-labs/open-source-project-template --public
+gh repo create my-new-project --template liatrio-labs/base-repo-template --public
 cd my-new-project
 ```
 
@@ -83,7 +83,7 @@ Follow the [Template Customization Guide](docs/template-guide.md) to adapt the t
 After completing customization and getting your repository in a good state, have your AI assistant run the audit prompt to verify compliance and identify any remaining gaps:
 
 ```text
-Run `gh api repos/liatrio-labs/open-source-project-template/contents/prompts/repository-template-audit.md -q '.content' | base64 -d` to read the prompt then follow its instructions. Use the current directory as the target_repository and 'liatrio-labs/open-source-project-template' as the template_repository."
+Run `gh api repos/liatrio-labs/base-repo-template/contents/prompts/repository-template-audit.md -q '.content' | base64 -d` to read the prompt then follow its instructions. Use the current directory as the target_repository and 'liatrio-labs/base-repo-template' as the template_repository."
 ```
 
 The audit will check for:

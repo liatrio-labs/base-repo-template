@@ -93,7 +93,7 @@ You understand how to use these tools (they're already configured and ready):
 
 Start fresh—don't read any files ahead of time. The template's README on GitHub should be your starting point:
 
-- **Template repository**: https://github.com/liatrio-labs/open-source-project-template
+- **Template repository**: https://github.com/liatrio-labs/base-repo-template
 
 Let the documentation guide you from there. If you need to find other files or prompts, follow the links and references in the README.
 
@@ -107,7 +107,7 @@ Let the documentation guide you from there. If you need to find other files or p
 - **Create the repository** from the local template directory:
 
   ```bash
-  gh repo create liatrio-labs/test-nodejs-todo-app --private --source /home/damien/Liatrio/repos/open-source-template --description "A Node.js todo application with frontend and backend components"
+  gh repo create liatrio-labs/test-nodejs-todo-app --private --source /home/damien/Liatrio/repos/base-repo-template --description "A Node.js todo application with frontend and backend components"
   ```
 
   **Important Note**: The `--source` flag creates an **empty repository** - it does not copy files from the source directory. This is different from using `--template` with a GitHub template repository. After creating the repository, you'll need to manually copy the template files.
@@ -122,7 +122,7 @@ Let the documentation guide you from there. If you need to find other files or p
 
   ```bash
   cd test-nodejs-todo-app
-  rsync -av --exclude='.git' /home/damien/Liatrio/repos/open-source-template/ .
+  rsync -av --exclude='.git' /home/damien/Liatrio/repos/base-repo-template/ .
   ```
 
 - **Commit and push the template files**:
@@ -145,7 +145,7 @@ Let the documentation guide you from there. If you need to find other files or p
   cd /home/damien/temp/oss-template-testing/template-test/[your-repo-name]
   claude --print \
     --system-prompt "You are a helpful AI assistant that follows instructions precisely. Read the prompt file and execute the customization workflow step by step." \
-    "Read /home/damien/Liatrio/repos/open-source-template/prompts/repository-template-customizer.md and follow its instructions. Use '$(pwd)' as the target_repository, 'Node.js Todo App' as the project_name, 'A Node.js todo application with frontend and backend components' as the project_description, and 'Node.js' as the primary_language." > customization-guide-from-claude.md
+    "Read /home/damien/Liatrio/repos/base-repo-template/prompts/repository-template-customizer.md and follow its instructions. Use '$(pwd)' as the target_repository, 'Node.js Todo App' as the project_name, 'A Node.js todo application with frontend and backend components' as the project_description, and 'Node.js' as the primary_language." > customization-guide-from-claude.md
   ```
 
   **Important**: You must actually execute this command using the terminal, not just read the prompt file. The command will generate `customization-guide-from-claude.md` with Claude's output.
@@ -164,7 +164,7 @@ Let the documentation guide you from there. If you need to find other files or p
   cd /home/damien/temp/oss-template-testing/template-test
   claude --print \
     --system-prompt "You are a helpful AI assistant that follows instructions precisely. Read the prompt file and execute the audit workflow step by step." \
-    "Read /home/damien/Liatrio/repos/open-source-template/prompts/repository-template-audit.md and follow its instructions. Use '$(pwd)/[your-repo-name]' as the target_repository and 'liatrio-labs/open-source-project-template' as the template_repository. Use the 'gh' CLI to access the template repository." > audit-report-from-claude.md
+    "Read /home/damien/Liatrio/repos/base-repo-template/prompts/repository-template-audit.md and follow its instructions. Use '$(pwd)/[your-repo-name]' as the target_repository and 'liatrio-labs/base-repo-template' as the template_repository. Use the 'gh' CLI to access the template repository." > audit-report-from-claude.md
   ```
 
   **Important**: You must actually execute this command using the terminal, not just read the prompt file. The command will generate `audit-report-from-claude.md` with Claude's audit output.

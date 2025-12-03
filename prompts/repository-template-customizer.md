@@ -86,7 +86,7 @@ Follow the structured workflow below. Each phase has a blocking validation gateâ
 ### Phase 1: Baseline Assessment
 
 1. Identify repository type (template-derived vs. net-new) and current customization status by inspecting README, docs, and workflows.
-2. Detect placeholder strings (e.g., `open-source-template`, `Liatrio Open Source Template`, `PROJECT_NAME`) that require replacement.
+2. Detect placeholder strings (e.g., `base-repo-template`, `Liatrio Open Source Template`, `PROJECT_NAME`) that require replacement.
 3. Inventory automation assets: workflows, pre-commit hooks, Renovate config, release configs.
 
 **Validation Gate:**
@@ -137,7 +137,7 @@ Execute actions in the following order, verifying each step before moving on:
      - Remove or update any template-specific references
    - **Update `docs/template-guide.md`** (if retaining): Refresh with project context, setup steps, and workflow references
    - Update `CODE_OF_CONDUCT.md` with project-specific reporting channels, response owners, and any event-specific scope.
-   - **Update `.github/SECURITY.md`** (if present): Replace template repository URL in the Private Vulnerability Reporting link with the current repository URL (e.g., change `https://github.com/liatrio-labs/open-source-project-template/security/advisories/new` to `https://github.com/{owner}/{repo}/security/advisories/new`)
+   - **Update `.github/SECURITY.md`** (if present): Replace template repository URL in the Private Vulnerability Reporting link with the current repository URL (e.g., change `https://github.com/liatrio-labs/base-repo-template/security/advisories/new` to `https://github.com/{owner}/{repo}/security/advisories/new`)
    - Update issue templates and PR template to mention correct project name and workflows.
    - **Update `.github/ISSUE_TEMPLATE/config.yml`**: Replace template repository URLs with the current repository URLs (contact links, documentation references)
    - **Remove template-specific content:**
@@ -338,7 +338,7 @@ Write the final plan to `customization-plan.md` at the repository root so it can
 
 ## Quick Reference Commands
 
-- Search for placeholders: `rg -n "open-source-template|PROJECT_NAME|Liatrio Open Source Template"`
+- Search for placeholders: `rg -n "base-repo-template|PROJECT_NAME|Liatrio Open Source Template"`
 - **Install pre-commit** (if needed): `brew install pre-commit` (macOS) or `sudo apt install pre-commit` (Ubuntu/Debian) or `pip install pre-commit` (all platforms)
 - **Install pre-commit hooks**: `pre-commit install`
 - **Run pre-commit hooks**: `pre-commit run --all-files` (run until all hooks pass)
@@ -349,7 +349,7 @@ Write the final plan to `customization-plan.md` at the repository root so it can
 - **Check for broken links**: `rg -n "docs/template-guide.md"` (should return nothing if file was deleted; searches entire repository recursively)
 - **Search for remaining placeholders**: `rg -n "\[your-repo-name\]|liatrio/\[your-repo-name\]|template repository"` (should return no matches; searches entire repository recursively)
 - **Verify template-specific content removed**: `rg -n "Enable.*Template repository|Template repository.*checkbox"` (should return nothing; searches entire repository recursively)
-- **Verify SECURITY.md URLs**: `rg -n "open-source-project-template.*security/advisories" .github/SECURITY.md` (should return nothing if file exists and URLs are updated)
+- **Verify SECURITY.md URLs**: `rg -n "base-repo-template.*security/advisories" .github/SECURITY.md` (should return nothing if file exists and URLs are updated)
 - Check GitHub settings: `gh api repos/{owner}/{repo}`
 - Update repo settings: `gh api -X PATCH repos/{owner}/{repo} -F allow_squash_merge=true -F allow_merge_commit=false -F delete_branch_on_merge=true`
 - Inspect branch protection: `gh api repos/{owner}/{repo}/branches/{branch}/protection`
@@ -383,7 +383,7 @@ Once customization of the templated repo is complete and your project is in a go
 1. **Run the audit prompt** with your AI assistant to verify your customization and check for any remaining compliance gaps:
 
    ```text
-   Run `gh api repos/liatrio-labs/open-source-project-template/contents/prompts/repository-template-audit.md -q '.content' | base64 -d` to read the prompt then follow its instructions. Use the current directory as the target_repository and 'liatrio-labs/open-source-project-template' as the template_repository.
+   Run `gh api repos/liatrio-labs/base-repo-template/contents/prompts/repository-template-audit.md -q '.content' | base64 -d` to read the prompt then follow its instructions. Use the current directory as the target_repository and 'liatrio-labs/base-repo-template' as the template_repository.
    ```
 
 2. **What the audit checks:**

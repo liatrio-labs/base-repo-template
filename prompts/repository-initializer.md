@@ -53,7 +53,7 @@ If any of these inputs are not provided, prompt the user before proceeding:
 1. **Create the repository** using GitHub CLI:
 
    ```bash
-   gh repo create <org>/<project_name> --template liatrio-labs/open-source-project-template --private --description "<project_description>"
+   gh repo create <org>/<project_name> --template liatrio-labs/base-repo-template --private --description "<project_description>"
    ```
 
    **Note**: Replace `<org>` with the GitHub organization or username where the repository should be created. If not specified, use the `liatrio-labs` organization.

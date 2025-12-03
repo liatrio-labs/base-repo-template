@@ -37,7 +37,6 @@ After creating your repository from this template, follow the checklist below:
 - [ ] Customize pull request template in `.github/pull_request_template.md`
 - [ ] Update `docs/development.md` with project-specific setup instructions
 - [ ] Update `docs/ARCHITECTURE.md` with your system architecture
-- [ ] Remove or update `docs/repository-settings.md` - this file contains template-specific repository settings guidance and should be cleaned up after customization
 
 ### Secrets and Authentication
 
@@ -50,12 +49,30 @@ See [Required GitHub Secrets](#required-github-secrets) for details.
 
 ### Repository Settings
 
-- [ ] Enable branch protection for `main` branch
+- [ ] Apply general repository settings (see commands below)
+- [ ] Enable branch protection for `main` branch using `.github/ruleset-config.json`
+- [ ] Add Chainguard Octo STS to bypass list (if using semantic-release)
 - [ ] Configure required status checks (CI workflows)
 - [ ] Set up CODEOWNERS file if needed
-- [ ] Review repository settings (Issues, Wikis, Discussions, etc.)
 
-See [docs/development.md](development.md) for recommended repository settings.
+**Apply settings via GitHub CLI:**
+
+```bash
+# General settings (squash merge only, auto-delete branches)
+gh api -X PATCH repos/{owner}/{repo} \
+  -F has_issues=true \
+  -F has_wiki=true \
+  -F allow_squash_merge=true \
+  -F allow_merge_commit=false \
+  -F allow_rebase_merge=false \
+  -F delete_branch_on_merge=true
+
+# Branch protection ruleset
+gh api -X POST repos/{owner}/{repo}/rulesets \
+  --input .github/ruleset-config.json
+```
+
+**Important:** If using semantic-release, add Chainguard Octo STS to the ruleset bypass list via GitHub UI: Settings → Rules → Rulesets → Edit → Bypass list → Add "Chainguard Octo-sts".
 
 ### Post-Customization Verification
 

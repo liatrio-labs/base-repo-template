@@ -78,25 +78,11 @@ Follow the [Template Customization Guide](docs/template-guide.md) to adapt the t
 - Contributing guidelines with conventional commits
 - Development setup guide
 - Architecture documentation template
-- Repository settings documentation
 
 ## Documentation
 
-- [Template Customization Guide](docs/template-guide.md) - Complete customization checklist
+- [Template Customization Guide](docs/template-guide.md) - Complete customization checklist and repository settings
 - [Contributing Guidelines](CONTRIBUTING.md) - Development workflow and conventions
-- [Development Setup](docs/development.md) - Local setup and repository settings
+- [Development Setup](docs/development.md) - Local setup and testing
 - [Architecture](docs/ARCHITECTURE.md) - System architecture documentation
 - [AI Agent Guidelines](AGENTS.md) - Context for AI assistants
-
-## Customization Checklist
-
-After creating a repository from this template:
-
-- [ ] Update this README with your project information
-- [ ] Update CI badges with your repository URLs
-- [ ] Customize `.github/workflows/ci.yml` for your language
-- [ ] Add language-specific pre-commit hooks
-- [ ] Update `.github/chainguard/main-semantic-release.sts.yaml` subject pattern
-- [ ] Update `.github/CODEOWNERS` with your team
-- [ ] Configure branch protection rules
-- [ ] Remove this checklist section

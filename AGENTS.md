@@ -31,8 +31,7 @@ This is a **base repository template** providing opinionated software developmen
 ├── docs/
 │   ├── ARCHITECTURE.md         # System architecture template
 │   ├── development.md          # Local setup guide
-│   ├── template-guide.md       # Customization checklist
-│   └── repository-settings.md  # GitHub settings reference
+│   └── template-guide.md       # Customization checklist and settings
 ├── .pre-commit-config.yaml     # Quality gates
 ├── .releaserc.toml             # Semantic release config
 ├── CONTRIBUTING.md             # Workflow and conventions

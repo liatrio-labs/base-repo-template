@@ -7,8 +7,6 @@ This document provides detailed guidance for local development setup, testing, a
 - [Local Development Setup](#local-development-setup)
 - [Environment Variables](#environment-variables)
 - [Testing and QA](#testing-and-qa)
-- [Recommended Repository Settings](#recommended-repository-settings)
-- [Branch Protection Rules](#branch-protection-rules)
 - [Project-Specific Customizations](#project-specific-customizations)
 
 ## Local Development Setup
@@ -220,88 +218,6 @@ tests/
 └── fixtures/      # Test data and mocks
 ```
 
-## Recommended Repository Settings
-
-The following repository settings are recommended for projects using this template:
-
-### General Settings
-
-```bash
-# Apply these settings via GitHub UI (Settings → General) or gh CLI:
-
-# Enable features
-gh api -X PATCH repos/{owner}/{repo} \
-  -F has_issues=true \
-  -F has_wiki=true \
-  -F has_discussions=false
-
-# Merge settings
-gh api -X PATCH repos/{owner}/{repo} \
-  -F allow_squash_merge=true \
-  -F allow_merge_commit=false \
-  -F allow_rebase_merge=false \
-  -F delete_branch_on_merge=true
-
-# Automatically delete head branches after PRs are merged
-# (Set delete_branch_on_merge=true above)
-```
-
-### Manual Configuration Steps
-
-1. **Configure merge button**
-   - Settings → General → Pull Requests
-   - ✓ Allow squash merging (recommended for clean history)
-   - ☐ Allow merge commits (disabled - enforces clean, linear history via squash merges only)
-   - ☐ Allow rebase merging (disabled - enforces clean, linear history via squash merges only)
-   - ✓ Automatically delete head branches
-
-2. **Set up CODEOWNERS** (optional)
-   - Create `.github/CODEOWNERS` file
-   - Define code ownership patterns
-
-## Branch Protection Rules
-
-### Recommended Protection for `main` Branch
-
-Apply these settings via GitHub UI (Settings → Rules → Rulesets) or via GitHub CLI:
-
-```bash
-# Create branch protection ruleset
-gh api -X POST repos/{owner}/{repo}/rulesets \
-  --input .github/ruleset-config.json
-```
-
-See `docs/repository-settings.md` for detailed configuration instructions.
-
-### Protection Rules Breakdown
-
-- **Require pull request before merging**: All changes must go through PR
-- **Required approvals**: 1 approving review required
-- **Dismiss stale reviews on push**: No (recommended approach - reviews persist if reviewer approves latest changes)
-- **Require last push approval**: Yes (ensures reviewers approve latest changes)
-- **Required review thread resolution**: Yes (all review threads must be resolved)
-- **Require status checks**: CI must pass (`Run Tests` + `Run Linting` jobs)
-- **Require branches to be up to date**: Yes (strict policy - enforces linear history)
-- **Required linear history**: Yes (enforces clean, linear history)
-- **Allowed merge methods**: Squash only (enforced in ruleset)
-- **Bypass actors**: Admins and Maintainers can bypass rules
-
-**Note:** The configuration is defined in `.github/ruleset-config.json`. Customize this file if you need different settings.
-
-### Manual Configuration Steps
-
-1. Go to Settings → Rules → Rulesets
-2. Click **New ruleset** → Select **Branch ruleset**
-3. Configure the ruleset (see `.github/ruleset-config.json` for reference):
-   - **Name**: `main branch protection`
-   - **Target branches**: Select **Default branch** (`main`)
-   - **Enforcement**: **Active**
-   - Configure rules: deletion protection, force push protection, PR requirements, status checks, linear history
-   - Add bypass actors: Admins, Maintainers (and Chainguard Octo STS if using semantic-release)
-4. Click **Create ruleset** to save
-
-See `docs/repository-settings.md` for detailed step-by-step instructions.
-
 ## Project-Specific Customizations
 
 <!-- Add project-specific development guidance here -->
@@ -420,6 +336,7 @@ git rebase --continue
 ## Additional Resources
 
 - [CONTRIBUTING.md](../CONTRIBUTING.md) - Contribution guidelines
+- [Template Customization Guide](template-guide.md) - Repository settings and branch protection
 - [README.md](../README.md) - Project overview and quick start
 - [GitHub Actions Documentation](https://docs.github.com/en/actions)
 - [pre-commit Documentation](https://pre-commit.com/)

@@ -21,6 +21,8 @@ After creating your repository from this template, follow the checklist below:
 - [ ] Update paths-ignore in workflows if needed
 - [ ] Review `.github/workflows/release.yml` and customize build/release steps
 
+> **Best Practice:** Always pin GitHub Actions to specific versions (e.g., `@v4`) for stability and security. Avoid `@latest` except for rapidly evolving actions where you commit to active monitoring.
+
 ### Pre-commit Hooks
 
 - [ ] Review `.pre-commit-config.yaml` and add language-specific hooks

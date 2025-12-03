@@ -29,7 +29,13 @@ jobs:
       group: semantic-release-${{ github.ref }}
       cancel-in-progress: false
     steps:
-      # Chainguard Octo STS authentication (configured at Liatrio org level)
+      # Chainguard Octo STS authentication
+      # This provides short-lived tokens for GitHub Actions without storing long-lived secrets.
+      # Configured at Liatrio org level. For external adoption:
+      #   1. Set up Octo STS: https://github.com/octo-sts/app
+      #   2. Configure identity in .github/chainguard/main-semantic-release.sts.yaml
+      #   3. Add the Octo STS GitHub App to your repository's ruleset bypass list
+      # Alternative: Replace this step with a GitHub PAT or GitHub App token
       - uses: octo-sts/action@6177b4481c00308b3839969c3eca88c96a91775f # v1.0.0
         id: octo-sts
         with:

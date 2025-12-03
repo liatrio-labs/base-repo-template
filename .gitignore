@@ -37,6 +37,7 @@ dist/
 build/
 *.tar.gz
 *.zip
+!docs/specs-archive-*.zip
 
 # Coverage reports (language-agnostic)
 coverage/

@@ -67,17 +67,15 @@ gh api -X PATCH repos/{owner}/{repo} \
 
 ### Apply Branch Protection Rules
 
-The recommended way to apply branch protection is using the provided script, which uses the Rulesets API:
+Apply branch protection using the Rulesets API with the provided configuration file:
 
 ```bash
-# Apply branch protection using the automation script
-./scripts/apply-repo-settings.sh {owner}/{repo}
-
-# Or with dry-run to preview changes
-./scripts/apply-repo-settings.sh {owner}/{repo} --dry-run
+# Create branch protection ruleset
+gh api -X POST repos/{owner}/{repo}/rulesets \
+  --input .github/ruleset-config.json
 ```
 
-The script uses `scripts/ruleset-config.json` for the Rulesets API configuration. You can customize this file if needed, but the default configuration includes:
+The `.github/ruleset-config.json` file contains the Rulesets API configuration. You can customize this file if needed, but the default configuration includes:
 
 - Required status checks: `Run Tests`, `Run Linting`
 - Required approvals: 1 minimum
@@ -87,12 +85,15 @@ The script uses `scripts/ruleset-config.json` for the Rulesets API configuration
 
 **Note:** If using semantic-release, you'll need to manually add Chainguard Octo STS integration to the bypass list via GitHub UI (see [Manual Configuration](#using-rulesets-api-recommended) section).
 
-**Manual API approach** (if you prefer not to use the script):
+**Update existing ruleset:**
 
 ```bash
-# Create branch protection ruleset using Rulesets API
-gh api -X POST repos/{owner}/{repo}/rulesets \
-  --input scripts/ruleset-config.json
+# Get existing ruleset ID
+RULESET_ID=$(gh api repos/{owner}/{repo}/rulesets --jq '.[] | select(.target == "branch") | .id' | head -1)
+
+# Update ruleset
+gh api -X PUT repos/{owner}/{repo}/rulesets/$RULESET_ID \
+  --input .github/ruleset-config.json
 ```
 
 ### Verify Settings
@@ -483,7 +484,7 @@ Repository metadata (description and topics) is configured manually rather than 
 3. **Flexibility**: Different repositories may need different descriptions and topic selections
 4. **Simplicity**: Manual configuration via UI or CLI is straightforward and doesn't require script maintenance
 
-The `scripts/apply-repo-settings.sh` script focuses on settings that benefit from automation (general settings, branch protection) and excludes metadata configuration. The script uses `scripts/ruleset-config.json` for branch protection configuration, which can be customized if needed.
+Repository settings can be applied via `gh api` commands (see [Automated Configuration](#automated-configuration) section). The `.github/ruleset-config.json` file contains the branch protection ruleset configuration, which can be customized if needed.
 
 ## Additional Resources
 

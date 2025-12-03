@@ -80,11 +80,6 @@ Follow the [Template Customization Guide](docs/template-guide.md) to adapt the t
 - Architecture documentation template
 - Repository settings documentation
 
-### Scripts
-
-- `apply-repo-settings.sh`: Automate GitHub repository configuration
-- `ruleset-config.json`: Branch protection configuration
-
 ## Documentation
 
 - [Template Customization Guide](docs/template-guide.md) - Complete customization checklist

@@ -30,9 +30,6 @@ This is a **base repository template** providing opinionated software developmen
 │   ├── template-guide.md       # Customization guide
 │   ├── repository-settings.md  # GitHub settings
 │   └── github-actions.md       # Actions versioning
-├── scripts/                    # Automation scripts
-│   ├── apply-repo-settings.sh  # Settings automation
-│   └── ruleset-config.json     # Branch protection
 ├── .pre-commit-config.yaml     # Pre-commit hooks
 ├── .releaserc.toml             # Semantic release config
 ├── CONTRIBUTING.md             # Contribution guidelines
@@ -72,8 +69,15 @@ pre-commit run --all-files
 ### Apply Repository Settings
 
 ```bash
-./scripts/apply-repo-settings.sh owner/repo
-./scripts/apply-repo-settings.sh owner/repo --dry-run  # Preview
+# Apply general settings
+gh api -X PATCH repos/{owner}/{repo} \
+  -F has_issues=true \
+  -F allow_squash_merge=true \
+  -F delete_branch_on_merge=true
+
+# Apply branch protection ruleset
+gh api -X POST repos/{owner}/{repo}/rulesets \
+  --input .github/ruleset-config.json
 ```
 
 ### Validate Configuration Files
@@ -94,7 +98,7 @@ When customizing this template for a new project:
 2. **CI/CD**: Add language-specific setup to `.github/workflows/ci.yml`
 3. **Pre-commit**: Add language-specific hooks to `.pre-commit-config.yaml`
 4. **Release**: Update `.releaserc.toml` with version files
-5. **Settings**: Run `scripts/apply-repo-settings.sh` for branch protection
+5. **Settings**: Configure branch protection using `.github/ruleset-config.json`
 
 ## Documentation References
 

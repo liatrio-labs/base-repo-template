@@ -263,23 +263,15 @@ gh api -X PATCH repos/{owner}/{repo} \
 
 ### Recommended Protection for `main` Branch
 
-Apply these settings via GitHub UI (Settings → Rules → Rulesets) or use the automation script:
-
-```bash
-# Apply branch protection using the automation script (recommended)
-./scripts/apply-repo-settings.sh {owner}/{repo}
-
-# The script uses scripts/ruleset-config.json for configuration
-# See docs/repository-settings.md for detailed instructions
-```
-
-For manual configuration via GitHub CLI using Rulesets API:
+Apply these settings via GitHub UI (Settings → Rules → Rulesets) or via GitHub CLI:
 
 ```bash
 # Create branch protection ruleset
 gh api -X POST repos/{owner}/{repo}/rulesets \
-  --input scripts/ruleset-config.json
+  --input .github/ruleset-config.json
 ```
+
+See `docs/repository-settings.md` for detailed configuration instructions.
 
 ### Protection Rules Breakdown
 
@@ -294,13 +286,13 @@ gh api -X POST repos/{owner}/{repo}/rulesets \
 - **Allowed merge methods**: Squash only (enforced in ruleset)
 - **Bypass actors**: Admins and Maintainers can bypass rules
 
-**Note:** The configuration is defined in `scripts/ruleset-config.json`. Customize this file if you need different settings.
+**Note:** The configuration is defined in `.github/ruleset-config.json`. Customize this file if you need different settings.
 
 ### Manual Configuration Steps
 
 1. Go to Settings → Rules → Rulesets
 2. Click **New ruleset** → Select **Branch ruleset**
-3. Configure the ruleset (see `scripts/ruleset-config.json` for reference):
+3. Configure the ruleset (see `.github/ruleset-config.json` for reference):
    - **Name**: `main branch protection`
    - **Target branches**: Select **Default branch** (`main`)
    - **Enforcement**: **Active**

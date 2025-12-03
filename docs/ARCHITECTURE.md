@@ -18,23 +18,110 @@ This document describes the architecture of [PROJECT_NAME].
 
 ## Architecture Diagram
 
-<!-- Include or reference architecture diagrams. Consider using Mermaid, PlantUML, or linking to external diagrams. -->
+<!-- Replace these example diagrams with your project's actual architecture. -->
 
-```text
-┌─────────────────────────────────────────────────────────┐
-│                    [Component Name]                      │
-├─────────────────────────────────────────────────────────┤
-│                                                          │
-│   ┌──────────┐    ┌──────────┐    ┌──────────┐         │
-│   │  Module  │───▶│  Module  │───▶│  Module  │         │
-│   └──────────┘    └──────────┘    └──────────┘         │
-│                                                          │
-└─────────────────────────────────────────────────────────┘
+### High-Level System Architecture
+
+```mermaid
+flowchart TD
+    subgraph "Client Layer"
+        A[Web Application]
+        B[Mobile App]
+    end
+
+    subgraph "API Layer"
+        C[API Gateway]
+        D[Load Balancer]
+    end
+
+    subgraph "Service Layer"
+        E[Auth Service]
+        F[Core Service]
+        G[Notification Service]
+    end
+
+    subgraph "Data Layer"
+        H[(Primary Database)]
+        I[(Cache)]
+        J[Message Queue]
+    end
+
+    A --> D
+    B --> D
+    D --> C
+    C --> E
+    C --> F
+    C --> G
+    F --> H
+    F --> I
+    G --> J
+
+    style A fill:#e1f5fe,stroke:#01579b
+    style B fill:#e1f5fe,stroke:#01579b
+    style C fill:#fff3e0,stroke:#ef6c00
+    style H fill:#c8e6c9,stroke:#2e7d32
+    style I fill:#c8e6c9,stroke:#2e7d32
+```
+
+### Request Flow Sequence
+
+```mermaid
+sequenceDiagram
+    participant Client as Client
+    participant Gateway as API Gateway
+    participant Auth as Auth Service
+    participant Service as Core Service
+    participant DB as Database
+
+    Client->>Gateway: API Request
+    Gateway->>Auth: Validate Token
+    Auth-->>Gateway: Token Valid
+
+    Gateway->>Service: Forward Request
+    Service->>DB: Query Data
+    DB-->>Service: Return Results
+
+    Service-->>Gateway: Response
+    Gateway-->>Client: API Response
+
+    rect rgb(240, 248, 255)
+        Note over Gateway,Auth: Authentication Phase
+    end
+
+    rect rgb(255, 248, 220)
+        Note over Service,DB: Business Logic Phase
+    end
 ```
 
 ## Components
 
 <!-- List and describe major components of the system. -->
+
+### Component Overview
+
+```mermaid
+flowchart TD
+    subgraph "API Gateway"
+        A[Request Router]
+        B[Rate Limiter]
+        C[Auth Middleware]
+    end
+
+    subgraph "Core Services"
+        D[User Service]
+        E[Business Logic]
+        F[Data Access Layer]
+    end
+
+    A --> B --> C
+    C --> D
+    C --> E
+    E --> F
+
+    style A fill:#e1f5fe,stroke:#01579b
+    style C fill:#fff3e0,stroke:#ef6c00
+    style F fill:#c8e6c9,stroke:#2e7d32
+```
 
 ### Component 1
 
@@ -75,19 +162,51 @@ This document describes the architecture of [PROJECT_NAME].
 
 | Layer | Technology | Purpose |
 |-------|------------|---------|
-| <!-- e.g., Frontend --> | <!-- e.g., React --> | <!-- e.g., User interface --> |
-| <!-- e.g., Backend --> | <!-- e.g., Node.js --> | <!-- e.g., API server --> |
-| <!-- e.g., Database --> | <!-- e.g., PostgreSQL --> | <!-- e.g., Data persistence --> |
+| Frontend | <!-- e.g., React, Vue, Angular --> | User interface |
+| Backend | <!-- e.g., Node.js, Python, Go --> | API server |
+| Database | <!-- e.g., PostgreSQL, MongoDB --> | Data persistence |
+| Cache | <!-- e.g., Redis, Memcached --> | Performance optimization |
+| Queue | <!-- e.g., RabbitMQ, SQS --> | Async processing |
 
 ## Deployment Architecture
 
 <!-- Describe how the system is deployed. -->
 
+### Environment Overview
+
+```mermaid
+flowchart LR
+    subgraph "Development"
+        A[Local Environment]
+    end
+
+    subgraph "CI/CD"
+        B[GitHub Actions]
+    end
+
+    subgraph "Staging"
+        C[Staging Cluster]
+    end
+
+    subgraph "Production"
+        D[Production Cluster]
+    end
+
+    A -->|Push| B
+    B -->|Auto Deploy| C
+    B -->|Manual Approval| D
+
+    style A fill:#e1f5fe,stroke:#01579b
+    style B fill:#fff3e0,stroke:#ef6c00
+    style C fill:#fff3e0,stroke:#ef6c00
+    style D fill:#c8e6c9,stroke:#2e7d32
+```
+
 ### Environments
 
-- **Development**: <!-- Description -->
-- **Staging**: <!-- Description -->
-- **Production**: <!-- Description -->
+- **Development**: Local development environment with hot reloading
+- **Staging**: Pre-production environment mirroring production configuration
+- **Production**: Live environment with high availability and monitoring
 
 ### Infrastructure
 
@@ -96,6 +215,24 @@ This document describes the architecture of [PROJECT_NAME].
 ## Security Considerations
 
 <!-- Document security architecture decisions. -->
+
+### Authentication Flow
+
+```mermaid
+stateDiagram-v2
+    [*] --> Unauthenticated
+
+    Unauthenticated --> Authenticating: Login Request
+    Authenticating --> Authenticated: Valid Credentials
+    Authenticating --> Unauthenticated: Invalid Credentials
+
+    Authenticated --> TokenRefresh: Token Expiring
+    TokenRefresh --> Authenticated: Refresh Success
+    TokenRefresh --> Unauthenticated: Refresh Failed
+
+    Authenticated --> Unauthenticated: Logout
+    Authenticated --> [*]: Session End
+```
 
 ### Authentication
 

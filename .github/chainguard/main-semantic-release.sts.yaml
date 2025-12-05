@@ -10,7 +10,8 @@ issuer: https://token.actions.githubusercontent.com
 # with the identity "main-semantic-release"
 #
 # TODO: Update with your repository path
-subject_pattern: "repo:{OWNER}/{REPO}:ref:refs/heads/main"
+# subject_pattern: "repo:{OWNER}/{REPO}:ref:refs/heads/main"
+subject_pattern: "repo:liatrio-labs/base-repo-template:ref:refs/heads/main"
 
 permissions:
   contents: write

@@ -42,8 +42,8 @@ This is a **base repository template** providing opinionated software developmen
 ## Key Files
 
 | File | Purpose |
-|------|---------|
-| `.pre-commit-config.yaml` | Tech-agnostic quality gates (YAML, markdown, commits, secrets) |
+| ------ | --------- |
+| `.pre-commit-config.yaml` | Tech-agnostic quality gates (YAML, markdown, commits, secrets, renovate) |
 | `.releaserc.toml` | Semantic release configuration |
 | `.github/workflows/ci.yml` | CI workflow with language placeholders |
 | `.github/ruleset-config.json` | Branch protection ruleset for `gh api` |
@@ -73,7 +73,7 @@ For detailed workflows and conventions, see:
 ## Important Notes for AI Assistants
 
 - **Language-agnostic**: CI workflows have placeholders for any language
-- **Pre-commit**: Universal checks only (YAML, markdown, commits, secrets)
+- **Pre-commit**: Universal checks only (YAML, markdown, commits, secrets, renovate)
 - **Semantic release**: Uses `python-semantic-release` but works for any project
 - **Branch protection**: Uses GitHub Rulesets API (modern approach)
 - **Commits**: Must follow [Conventional Commits](https://www.conventionalcommits.org/)

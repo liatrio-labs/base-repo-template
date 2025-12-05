@@ -161,7 +161,7 @@ flowchart TD
 <!-- List the technologies used in this project. -->
 
 | Layer | Technology | Purpose |
-|-------|------------|---------|
+| ------- | ------------ | --------- |
 | Frontend | <!-- e.g., React, Vue, Angular --> | User interface |
 | Backend | <!-- e.g., Node.js, Python, Go --> | API server |
 | Database | <!-- e.g., PostgreSQL, MongoDB --> | Data persistence |

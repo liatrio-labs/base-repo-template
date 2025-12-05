@@ -67,6 +67,7 @@ Follow the [Template Customization Guide](docs/template-guide.md) to adapt the t
 - Trailing whitespace and EOF fixes
 - Conventional commits enforcement
 - Secret scanning (Gitleaks)
+- Renovate configuration validation
 
 ### CI/CD Workflows
 

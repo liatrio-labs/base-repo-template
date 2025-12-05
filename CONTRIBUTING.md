@@ -14,7 +14,7 @@ Thank you for contributing to this project! This guide will help you understand 
 
 ### Setup
 
-1. Fork and clone the repository
+1. Clone the repository
 2. Install dependencies for your language/framework
 3. Install pre-commit hooks: `pre-commit install`
 4. Create a feature branch following our [naming conventions](#branch-naming-conventions)
@@ -128,50 +128,9 @@ Use descriptive branch names that indicate the type of work:
 
 ### Installing Pre-commit Hooks
 
-This template includes language-agnostic pre-commit hooks by default (YAML validation, markdown linting, conventional commits). To add hooks for your specific programming language, update `.pre-commit-config.yaml` with the appropriate hooks.
+This template includes language-agnostic pre-commit hooks by default (YAML validation, markdown linting, conventional commits). Language-specific hooks for JavaScript/TypeScript, Python, Go, and Rust are included as commented examples in [.pre-commit-config.yaml](.pre-commit-config.yaml) — uncomment the ones you need.
 
-### JavaScript/TypeScript Example
-
-```yaml
-  - repo: https://github.com/pre-commit/mirrors-eslint
-    rev: v9.0.0
-    hooks:
-      - id: eslint
-        files: \.[jt]sx?$
-        types: [file]
-```
-
-### Python Example
-
-```yaml
-  - repo: https://github.com/astral-sh/ruff-pre-commit
-    rev: v0.14.0
-    hooks:
-      - id: ruff-check
-        args: [--fix, --exit-non-zero-on-fix]
-      - id: ruff-format
-```
-
-### Go Example
-
-```yaml
-  - repo: https://github.com/golangci/golangci-lint
-    rev: v1.55.0
-    hooks:
-      - id: golangci-lint
-```
-
-### Rust Example
-
-```yaml
-  - repo: https://github.com/doublify/pre-commit-rust
-    rev: v1.0
-    hooks:
-      - id: fmt
-      - id: clippy
-```
-
-## Enabling/Disabling Hooks
+### Enabling/Disabling Hooks
 
 To skip a specific hook during commit:
 
@@ -179,11 +138,9 @@ To skip a specific hook during commit:
 SKIP=hook-id git commit -m "message"
 ```
 
-To disable the `no-commit-to-branch` hook (if enabled locally):
+You can also skip hooks by adding `[skip ci]` to the commit message or passing the `--no-verify` flag to `git commit`.
 
-```bash
-SKIP=no-commit-to-branch git commit -m "message"
-```
+> **⚠️ Note:** Skipping hooks is not recommended! This will bypass the quality gates and may introduce security vulnerabilities or other issues that will need to be addressed later. ⚠️
 
 ## Testing Guidelines
 

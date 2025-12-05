@@ -3,15 +3,6 @@ fail_fast: false
 default_install_hook_types: [pre-commit, pre-push, commit-msg]
 default_stages: [pre-commit]
 
-# Optional: Enable branch protection by creating .pre-commit-config.local.yaml with:
-#   repos:
-#     - repo: https://github.com/pre-commit/pre-commit-hooks
-#       rev: v6.0.0
-#       hooks:
-#         - id: no-commit-to-branch
-#           args: ['--branch=main', '--branch=master']
-# Then run: pre-commit install with SKIP=no-commit-to-branch if needed
-
 repos:
   - repo: https://github.com/pre-commit/pre-commit-hooks
     rev: v6.0.0
@@ -23,7 +14,7 @@ repos:
       -   id: check-added-large-files
 
   - repo: https://github.com/igorshubovych/markdownlint-cli
-    rev: v0.45.0
+    rev: v0.46.0
     hooks:
       - id: markdownlint-fix
         exclude: "CHANGELOG.md|LICENSE"
@@ -40,9 +31,48 @@ repos:
           - "--extends=@commitlint/config-conventional"
 
   - repo: https://github.com/gitleaks/gitleaks
-    rev: v8.29.0
+    rev: v8.30.0
     hooks:
       - id: gitleaks
         name: scan for committed secrets with gitleaks
         args:
           - "--redact"
+
+  - repo: https://github.com/renovatebot/pre-commit-hooks
+    rev: 42.38.1
+    hooks:
+      - id: renovate-config-validator
+        name: validate Renovate configuration
+
+# =============================================================================
+# Language-Specific Hooks (uncomment as needed for your project)
+# =============================================================================
+
+# JavaScript/TypeScript
+#  - repo: https://github.com/pre-commit/mirrors-eslint
+#    rev: v9.0.0
+#    hooks:
+#      - id: eslint
+#        files: \.[jt]sx?$
+#        types: [file]
+
+# Python
+#  - repo: https://github.com/astral-sh/ruff-pre-commit
+#    rev: v0.14.0
+#    hooks:
+#      - id: ruff-check
+#        args: [--fix, --exit-non-zero-on-fix]
+#      - id: ruff-format
+
+# Go
+#  - repo: https://github.com/golangci/golangci-lint
+#    rev: v1.55.0
+#    hooks:
+#      - id: golangci-lint
+
+# Rust
+#  - repo: https://github.com/doublify/pre-commit-rust
+#    rev: v1.0
+#    hooks:
+#      - id: fmt
+#      - id: clippy

@@ -145,7 +145,7 @@ Create a `.env` file (ignored by git) for local development:
 <!-- Document your project's required environment variables here -->
 
 | Variable | Description | Required | Default |
-|----------|-------------|----------|---------|
+| ---------- | ------------- | ---------- | --------- |
 | `DATABASE_URL` | Database connection string | Yes (prod) | `sqlite:///local.db` (dev) |
 | `API_KEY` | External API key | Yes (prod) | `dev-key` (dev) |
 | `LOG_LEVEL` | Logging verbosity | No | `INFO` |

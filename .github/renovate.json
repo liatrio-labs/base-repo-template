@@ -1,31 +1,43 @@
 {
-  "$schema": "https://docs.renovatebot.com/schemas/renovate-schema.json",
-  "extends": ["config:recommended"],
-  "prConcurrentLimit": 10,
-  "prHourlyLimit": 2,
-  "dependencyDashboard": true,
-  "dependencyDashboardTitle": "🤖 Dependency Dashboard",
-  "labels": ["dependencies"],
-  "automerge": false,
-  "automergeType": "pr",
-  "ignorePresets": [
-    ":automergeMinor"
+  "$schema": "https://docs.renovatebot.com/renovate-schema.json",
+  "description": "Generic best-practices Renovate configuration for the base repo template",
+  "extends": [
+    "config:best-practices",
+    ":semanticCommits",
+    ":enablePreCommit"
   ],
-  "updateNotScheduled": false,
-  "schedule": ["before 3am on monday"],
-  "timezone": "America/Los_Angeles",
+  "labels": [
+    "dependencies"
+  ],
+  "reviewersFromCodeOwners": true,
   "packageRules": [
     {
-      "matchUpdateTypes": ["major"],
-      "groupName": "major dependency updates",
-      "labels": ["dependencies", "breaking-change"]
+      "description": "Automerge non-major updates if CI passes",
+      "matchUpdateTypes": [
+        "minor",
+        "patch",
+        "pin",
+        "digest"
+      ],
+      "automerge": true
     },
     {
-      "matchUpdateTypes": ["minor", "patch"],
-      "groupName": "dependency updates",
-      "labels": ["dependencies"]
+      "description": "Group all non-major dependencies to reduce PR noise",
+      "matchUpdateTypes": [
+        "minor",
+        "patch"
+      ],
+      "groupName": "all non-major dependencies",
+      "groupSlug": "all-minor-patch"
     }
   ],
-  "reviewers": [],
-  "assignees": []
+  "ignorePaths": [
+    "**/node_modules/**",
+    "**/bower_components/**",
+    "**/vendor/**",
+    "**/examples/**",
+    "**/__tests__/**",
+    "**/test/**",
+    "**/tests/**"
+  ]
 }

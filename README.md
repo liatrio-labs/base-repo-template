@@ -74,6 +74,12 @@ Follow the [Template Customization Guide](docs/template-guide.md) to adapt the t
 - `ci.yml`: Placeholder for tests and linting (customize per language)
 - `release.yml`: Semantic release automation
 
+### Semantic Release Note (First Release)
+
+If you’re using python-semantic-release (PSR), start your project’s version at `0.0.0` in your package metadata file (e.g. `pyproject.toml`, `package.json`). This ensures your first release commit visibly stamps version files (and any lockfiles) instead of appearing to “only” add a changelog.
+
+See `docs/template-guide.md` for the full checklist.
+
 ### Documentation
 
 - Contributing guidelines with conventional commits

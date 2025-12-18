@@ -21,6 +21,25 @@ After creating your repository from this template, follow the checklist below:
 - [ ] Update paths-ignore in workflows if needed
 - [ ] Review `.github/workflows/release.yml` and customize build/release steps
 
+### Semantic Release Setup (First Release)
+
+If you’re using python-semantic-release (PSR), start your project at an initial version of `0.0.0`.
+
+Why: PSR only commits files that *change* during version stamping. If you start at your “first real”
+version (e.g. `0.1.0`), then the release commit may not include your version file(s) or lockfile(s)
+(because PSR has nothing to update), which is confusing during initial setup.
+
+Examples:
+
+- Python (`pyproject.toml`): set `project.version = "0.0.0"` and configure PSR `version_toml`.
+- uv (`uv.lock`): run `uv lock` after stamping so the lockfile reflects the stamped version.
+
+In practice:
+
+- [ ] Set your package metadata version to `0.0.0`
+- [ ] Configure PSR to stamp the version into that file
+- [ ] Ensure your release process regenerates lockfiles (if applicable) so they get committed
+
 > **Best Practice:** Always pin GitHub Actions to specific versions (e.g., `@v4`) for stability and security. Avoid `@latest` except for rapidly evolving actions where you commit to active monitoring.
 
 ### Pre-commit Hooks

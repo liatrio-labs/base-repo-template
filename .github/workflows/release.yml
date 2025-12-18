@@ -88,14 +88,22 @@ jobs:
         env:
           GH_TOKEN: ${{ steps.octo-sts.outputs.token }}
 
-      # NOTE: This template starts at v0.1.0 for demonstration purposes.
+      # NOTE: Best practice for first-time PSR setup
+      #
+      # Start your project metadata version at "0.0.0".
+      # Why: PSR only commits files that change during version stamping. If you
+      # start at your first intended release version (e.g. "0.1.0"), PSR may not
+      # include your version file(s) or lockfile(s) in the first release commit
+      # (because there's nothing to update).
+      #
       # When creating your project from this template:
-      # 1. Delete any existing tags: git tag -d $(git tag -l)
-      # 2. Remove CHANGELOG.md if it exists
-      # 3. Your first release will start at v1.0.0 (or the version determined by your first commit types)
-      # 4. Customize the [semantic_release] section in .releaserc.toml for your project needs
-      #    - See .releaserc.toml for examples of build_command configuration (Python/uv, Node.js, Go, Rust)
-      #    - The build_command runs during versioning to build your project artifacts
+      # 1. Ensure your package metadata version is "0.0.0"
+      # 2. Remove CHANGELOG.md if it exists (PSR will generate it)
+      # 3. Delete any existing tags (if you already experimented): git tag -d $(git tag -l)
+      # 4. Customize the [semantic_release] section in .releaserc.toml
+      #    - Add `version_toml`/`version_variables` targets
+      #    - Include lockfiles in `assets` if applicable (e.g. uv.lock)
+      #    - Configure `build_command` to regenerate lockfiles/build artifacts
 
       # NOTE: Build commands should be configured in .releaserc.toml (build_command), not here
 
